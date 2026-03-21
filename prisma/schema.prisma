@@ -1,0 +1,86 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  username  String   @unique
+  email     String   @unique
+  password  String
+  role      String   @default("user") // "user" or "admin"
+  firstName String?
+  lastName  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
+model CarGroupMedia {
+  id          String   @id @default(uuid())
+  groupKey    String   // The key used to group cars (e.g., "BMW X5")
+  type        String   // "image" or "video"
+  fileName    String
+  filePath    String   // Path relative to public folder
+  fileSize    Int      // Size in bytes
+  mimeType    String
+  order       Int      @default(0) // For ordering images/videos
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([groupKey])
+  @@map("car_group_media")
+}
+
+model TelegramChat {
+  id          String   @id @default(uuid())
+  chatId      String   @unique // Telegram chat ID
+  chatType    String   @default("private") // "private" or "group"
+  firstName   String?
+  lastName    String?
+  username    String?
+  title       String?  // For groups/channels
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("telegram_chats")
+}
+
+model Review {
+  id        String   @id @default(uuid())
+  name      String
+  image     String?  // Path to image file (optional)
+  rating    Int      // Rating from 1 to 5
+  text      String   @db.Text
+  isActive  Boolean  @default(true) // To show/hide reviews
+  order     Int      @default(0) // For ordering reviews
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("reviews")
+}
+
+// Կոնտակտային տվյալներ — մեկ տող (id = "main"), խմբագրվում է ադմինից
+model ContactSettings {
+  id             String   @id @default("main")
+  phone          String?  // tel: link (e.g. +79005001010)
+  phoneDisplay   String?  // Ցուցադրվող տեքստ (e.g. +7 (900) 500-10-10)
+  email          String?
+  address        String?  @db.Text
+  whatsappUrl    String?  // e.g. https://wa.me/79857396760
+  telegramUrl    String?  // e.g. https://t.me/ArendaAutoMoscow
+  telegramUrl2   String?  // Երրորդ սոց. հղում (optional)
+  workHours      String?  // e.g. Работаем Пн-Сб с 9:00 до 21:00
+  mapCenterLat   Float?
+  mapCenterLng   Float?
+  mapZoom        Int?     @default(15)
+  updatedAt      DateTime @updatedAt
+
+  @@map("contact_settings")
+}
