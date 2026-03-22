@@ -1,5 +1,3 @@
-import { SoundWaveCanvas } from './sound-wave-canvas';
-
 export function WorksBannerSection() {
   return (
     <section className="works-banner-block">
@@ -15,7 +13,7 @@ export function WorksBannerSection() {
             </p>
           </div>
           <div className="info-block">
-            <SoundWaveCanvas />
+            <img src="/landing/img/decoration.png" alt="AIDA process" />
             <div className="info info1">
               <img src="/landing/img/works-icon1.svg" alt="" />
               <span>Сall Recording</span>

@@ -34,6 +34,9 @@ export function SoundWaveCanvas() {
     let width = 0;
     let height = 0;
     let dpr = Math.max(1, Math.min(window.devicePixelRatio || 1, 2));
+    let voiceTarget = 0.35;
+    let voiceLevel = 0.35;
+    let nextPulseAt = 0;
 
     const resize = () => {
       const rect = canvas.getBoundingClientRect();
@@ -55,9 +58,8 @@ export function SoundWaveCanvas() {
       depth: number,
       voiceEnergy: number
     ) => {
-      const cx = width / 2;
       const cy = height / 2 + phase * 3;
-      const points = 180;
+      const points = 220;
       const left = -width * 0.05;
       const right = width * 1.05;
 
@@ -68,37 +70,36 @@ export function SoundWaveCanvas() {
       for (let i = 0; i <= points; i += 1) {
         const p = i / points;
         const x = left + (right - left) * p;
-        const center1 = 0.26 + Math.sin(t * 0.46 + phase * 0.4) * 0.14;
-        const center2 = 0.56 + Math.sin(t * 0.71 + 1.2 + phase * 0.2) * 0.1;
-        const center3 = 0.79 + Math.sin(t * 0.61 + 2.8) * 0.09;
+        const center1 = 0.24 + Math.sin(t * 0.48 + phase * 0.4) * 0.13;
+        const center2 = 0.54 + Math.sin(t * 0.72 + 1.2 + phase * 0.2) * 0.1;
+        const center3 = 0.8 + Math.sin(t * 0.63 + 2.8) * 0.08;
         const gauss = (v: number, c: number, s: number) => Math.exp(-((v - c) ** 2) / (2 * s * s));
         const formantPeaks = gauss(p, center1, 0.08) + gauss(p, center2, 0.075) + gauss(p, center3, 0.07);
-        const localEnergy = 0.55 + formantPeaks * (0.9 + voiceEnergy * 0.7);
+        const localEnergy = 0.52 + formantPeaks * (0.85 + voiceEnergy * 0.7);
 
         const freqDrift = 1 + softNoise(t * 0.7, phase + p * 2.3) * 0.16;
-        const speechFormant = Math.sin(t * (2.2 + softNoise(t * 0.5, phase) * 0.45) + p * 20 + phase);
-        const breath = Math.sin(t * 0.52 + phase) * 0.12 + 0.88;
-        const envelope = (0.62 + 0.38 * Math.sin(p * Math.PI * 2 + t * 0.3 + phase)) * breath;
+        const speechFormant = Math.sin(t * (1.9 + softNoise(t * 0.45, phase) * 0.35) + p * 18 + phase);
+        const breath = Math.sin(t * 0.4 + phase) * 0.1 + 0.9;
+        const envelope = (0.64 + 0.36 * Math.sin(p * Math.PI * 2 + t * 0.26 + phase)) * breath;
 
-        const microJitter =
-          Math.sin((p * Math.PI * 50) + t * 9.5 + phase) * (1.8 + voiceEnergy * 2.4) +
-          Math.sin((p * Math.PI * 90) - t * 11.2) * 0.8;
+        const fineTexture =
+          Math.sin((p * Math.PI * 24) + t * 4.6 + phase) * (0.45 + voiceEnergy * 0.6) +
+          Math.sin((p * Math.PI * 34) - t * 3.8) * 0.22;
 
         const y =
           cy +
-          Math.sin((p * Math.PI * 6 * freqDrift) + t * (1.2 + voiceEnergy * 0.9) + phase) *
+          Math.sin((p * Math.PI * 5.4 * freqDrift) + t * (1 + voiceEnergy * 0.8) + phase) *
             amp *
             envelope *
-            (0.7 + voiceEnergy * 0.45 + formantPeaks * 0.38) +
-          speechFormant * (amp * (0.16 + formantPeaks * 0.2)) +
-          Math.sin((p * Math.PI * 12) - t * 0.75 - phase) * (amp * 0.26) +
-          microJitter * 0.18;
+            (0.72 + voiceEnergy * 0.5 + formantPeaks * 0.34) +
+          speechFormant * (amp * (0.12 + formantPeaks * 0.16)) +
+          Math.sin((p * Math.PI * 10.5) - t * 0.62 - phase) * (amp * 0.18) +
+          fineTexture * (amp * 0.03);
 
         const thickness =
-          baseThickness * (0.82 + voiceEnergy * 0.35 + localEnergy * 0.22) +
-          Math.sin((p * Math.PI * 8) + t * 1.05 + phase) * 7 +
-          Math.cos((p * Math.PI * 3) - t * 0.7) * 4 +
-          Math.sin((p * Math.PI * 16) + t * 2.8 + phase) * (1.8 + voiceEnergy * 2.2);
+          baseThickness * (0.86 + voiceEnergy * 0.34 + localEnergy * 0.2) +
+          Math.sin((p * Math.PI * 7.2) + t * 0.95 + phase) * 5.4 +
+          Math.cos((p * Math.PI * 2.8) - t * 0.62) * 2.8;
 
         top.push({ x, y: y - thickness });
         bottom.push({ x, y: y + thickness });
@@ -169,10 +170,16 @@ export function SoundWaveCanvas() {
       const t = timeMs * 0.001;
       ctx.clearRect(0, 0, width, height);
 
-      // Voice-like dynamics: changing intensity and frequency bands over time.
-      const phrase = (Math.sin(t * 0.58) + Math.sin(t * 0.93 + 1.4) + 2) / 4;
-      const articulation = (Math.sin(t * 3.8) + Math.sin(t * 5.1 + 1.1) + 2) / 4;
-      const voiceEnergy = Math.max(0.08, Math.min(1, phrase * 0.72 + articulation * 0.28));
+      // Speech-like envelope: bursts and rests, smoothed for natural cadence.
+      if (t >= nextPulseAt) {
+        const longPhrase = (Math.sin(t * 0.42) + 1) * 0.5;
+        voiceTarget = 0.22 + longPhrase * 0.42 + Math.random() * 0.34;
+        nextPulseAt = t + 0.14 + Math.random() * 0.3;
+      }
+      voiceTarget *= 0.994;
+      voiceLevel += (voiceTarget - voiceLevel) * 0.1;
+      const articulation = (Math.sin(t * 5.2) + Math.sin(t * 7.4 + 0.8) + 2) / 4;
+      const voiceEnergy = Math.max(0.08, Math.min(1, voiceLevel * 0.8 + articulation * 0.2));
 
       ctx.save();
       roundedRect(ctx, 0, 0, width, height, 28);
@@ -212,8 +219,8 @@ export function SoundWaveCanvas() {
       drawRibbon(
         t,
         0,
-        height * (0.12 + voiceEnergy * 0.05),
-        26,
+        height * (0.11 + voiceEnergy * 0.07),
+        30,
         '#c6ff88',
         '#19c263',
         1,

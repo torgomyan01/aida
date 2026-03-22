@@ -1,10 +1,11 @@
 'use client';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, EffectCreative } from 'swiper/modules';
+import { Autoplay } from 'swiper/modules';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useLayoutEffect, useRef } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import type { Swiper as SwiperType } from 'swiper';
 
 const heroSlides = [
   {
@@ -67,14 +68,46 @@ const industries = [
   { icon: '/landing/img/industries-icon2.svg', label: 'Insurance Companies' },
 ];
 
+const BANNER_DELAY_MS = 8000;
+const CONTENT_FADE_OFFSET_MS = 500;
+
 function HomeHeroSection() {
+  const [activeSlideIndex, setActiveSlideIndex] = useState(0);
+  const [contentVisible, setContentVisible] = useState(true);
+  const swiperRef = useRef<SwiperType | null>(null);
+  const fadeOutTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const fadeInTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const clearTimers = () => {
+    if (fadeOutTimerRef.current) {
+      clearTimeout(fadeOutTimerRef.current);
+      fadeOutTimerRef.current = null;
+    }
+    if (fadeInTimerRef.current) {
+      clearTimeout(fadeInTimerRef.current);
+      fadeInTimerRef.current = null;
+    }
+  };
+
+  const scheduleFadeOut = () => {
+    if (!swiperRef.current) return;
+    if (fadeOutTimerRef.current) clearTimeout(fadeOutTimerRef.current);
+    fadeOutTimerRef.current = setTimeout(() => {
+      setContentVisible(false);
+    }, BANNER_DELAY_MS - CONTENT_FADE_OFFSET_MS);
+  };
+
+  useEffect(() => {
+    return () => clearTimers();
+  }, []);
+
   return (
     <section className="hero-block">
       <Swiper
         className="hero-slider"
-        modules={[Autoplay, EffectCreative]}
+        modules={[Autoplay]}
         loop={true}
-        speed={1000}
+        speed={750}
         slidesPerView={1}
         spaceBetween={20}
         grabCursor={true}
@@ -82,40 +115,56 @@ function HomeHeroSection() {
         touchRatio={1.2}
         touchAngle={45}
         autoplay={{
-          delay: 2000,
+          delay: BANNER_DELAY_MS,
           disableOnInteraction: false,
         }}
-        effect="creative"
-        creativeEffect={{
-          prev: {
-            shadow: true,
-            translate: ['-20%', 0, -1],
-            scale: 0.9,
-            opacity: 0.5,
-          },
-          next: {
-            translate: ['100%', 0, 0],
-          },
+        onSwiper={(swiper) => {
+          swiperRef.current = swiper;
+          setActiveSlideIndex(swiper.realIndex);
+          setContentVisible(true);
+          scheduleFadeOut();
+        }}
+        onSlideChangeTransitionStart={() => {
+          setContentVisible(false);
+        }}
+        onSlideChangeTransitionEnd={(swiper) => {
+          setActiveSlideIndex(swiper.realIndex);
+          if (fadeInTimerRef.current) clearTimeout(fadeInTimerRef.current);
+          fadeInTimerRef.current = setTimeout(() => {
+            setContentVisible(true);
+          }, CONTENT_FADE_OFFSET_MS);
+          scheduleFadeOut();
         }}
       >
-        {heroSlides.map((slide) => (
-          <SwiperSlide key={slide.title}>
-            <div className="slide-inner" style={{ backgroundImage: `url(${slide.image})` }}>
-              <div className="slide-info">
-                <h2>
-                  Tools <br /> to increase <span className="green-text">{slide.title}</span>
-                </h2>
-                <p>
-                  We help <b>banks, telecom</b> and <b>government</b> to improve their service
-                  conversation into success clients
-                </p>
-                <a href="#" className="green-btn">
-                  Book Demo
-                </a>
+        {heroSlides.map((slide, index) => {
+          const isVisible = contentVisible && activeSlideIndex === index;
+          return (
+            <SwiperSlide key={slide.title}>
+              <div className="slide-inner" style={{ backgroundImage: `url(${slide.image})` }}>
+                <div
+                  className="slide-info"
+                  style={{
+                    opacity: isVisible ? 1 : 0,
+                    transform: isVisible ? 'translateY(0)' : 'translateY(8px)',
+                    transition: 'opacity 0.45s ease, transform 0.45s ease',
+                    pointerEvents: isVisible ? 'auto' : 'none',
+                  }}
+                >
+                  <h2>
+                    Tools <br /> to increase <span className="green-text">{slide.title}</span>
+                  </h2>
+                  <p>
+                    We help <b>banks, telecom</b> and <b>government</b> to improve their service
+                    conversation into success clients
+                  </p>
+                  <a href="#" className="green-btn">
+                    Book Demo
+                  </a>
+                </div>
               </div>
-            </div>
-          </SwiperSlide>
-        ))}
+            </SwiperSlide>
+          );
+        })}
       </Swiper>
     </section>
   );
