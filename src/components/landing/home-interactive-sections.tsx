@@ -27,7 +27,10 @@ const stepImages = [
 ];
 
 /** Total ScrollTrigger scrub distance for the whole steps pin (px) */
-const STEPS_PIN_SCROLL_PX = 700;
+function getStepsPinScrollPx() {
+  if (typeof window === 'undefined') return 500;
+  return window.innerWidth <= 767 ? 200 : 500;
+}
 /** Pin wrapper height — tight to avoid empty green scroll after pin */
 function stepsPinContainerHeightVh(stepCount: number) {
   return `${(stepCount - 1) * 20 + 58}vh`;
@@ -210,6 +213,8 @@ function HomeStepsSection() {
       applyStackOrder(0);
 
       if (cards.length === 1) return;
+      const startOffsetPx = window.innerWidth <= 767 ? 20 : 100;
+      const stepsPinScrollPx = getStepsPinScrollPx();
 
       const timeline = gsap.timeline({
         defaults: {
@@ -217,8 +222,8 @@ function HomeStepsSection() {
         },
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: 'top top-=-500',
-          end: `+=${STEPS_PIN_SCROLL_PX}`,
+          start: `top top+=${startOffsetPx}`,
+          end: `+=${stepsPinScrollPx}`,
           scrub: 0.45,
           pin: pinRef.current,
           pinSpacing: true,

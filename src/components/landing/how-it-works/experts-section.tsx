@@ -36,7 +36,7 @@ export function ExpertsSection() {
     const ctx = gsap.context(() => {
       ScrollTrigger.create({
         trigger: sectionRef.current,
-        start: 'top top+=60',
+        start: 'top top-=60',
         end: `+=${(totalSlides - 1) * 560}`,
         scrub: 0.35,
         pin: true,

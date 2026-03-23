@@ -577,7 +577,7 @@ button.green-btn {
     top: 100%;
     left: 0;
     width: 100%;
-    height: calc(100vh - 70px);
+    height: calc(100dvh - 70px);
     z-index: 11;
     padding: 24px;
     padding-bottom: 48px;
@@ -942,7 +942,7 @@ button.green-btn {
 @media (max-width: 767px) {
   .from-experts-block .experts-info .experts-texts h2 {
     font-size: 32px;
-    max-width: 220px;
+    max-width: 100%;
   }
 }
 .from-experts-block .experts-info .experts-texts p {
