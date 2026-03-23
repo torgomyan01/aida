@@ -1,9 +1,9 @@
 import { ReactNode } from 'react';
 
+import { BookDemoModalProvider } from './book-demo-modal';
 import { LandingCtaSection } from './cta-section';
 import { LandingFooter } from './footer';
 import { LandingHeader } from './header';
-import { LandingStylesLoader } from './styles-loader';
 
 type ActivePage = 'home' | 'how-it-works' | 'about-us';
 
@@ -19,12 +19,11 @@ export function LandingPageShell({
   darkHeader = false,
 }: LandingPageShellProps) {
   return (
-    <>
-      <LandingStylesLoader />
+    <BookDemoModalProvider>
       <LandingHeader activePage={activePage} darkTheme={darkHeader} />
       {children}
       <LandingCtaSection />
       <LandingFooter activePage={activePage} />
-    </>
+    </BookDemoModalProvider>
   );
 }

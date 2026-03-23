@@ -1,5 +1,4 @@
 import type { MetadataRoute } from 'next';
-import { getAllCarsFull } from '@/app/actions/cars';
 
 const BASE_URL =
   process.env.NEXT_PUBLIC_APP_URL ||
@@ -17,50 +16,54 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 1,
     },
     {
-      url: `${BASE_URL}/catalog`,
+      url: `${BASE_URL}/how-it-works`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.9,
+    },
+    {
+      url: `${BASE_URL}/about-us`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/ru`,
       lastModified: now,
       changeFrequency: 'daily',
       priority: 0.95,
     },
     {
-      url: `${BASE_URL}/rental-terms`,
+      url: `${BASE_URL}/ru/how-it-works`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.85,
+    },
+    {
+      url: `${BASE_URL}/ru/about-us`,
       lastModified: now,
       changeFrequency: 'monthly',
-      priority: 0.8,
+      priority: 0.75,
     },
     {
-      url: `${BASE_URL}/contact`,
+      url: `${BASE_URL}/uz`,
+      lastModified: now,
+      changeFrequency: 'daily',
+      priority: 0.95,
+    },
+    {
+      url: `${BASE_URL}/uz/how-it-works`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.85,
+    },
+    {
+      url: `${BASE_URL}/uz/about-us`,
       lastModified: now,
       changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/offer`,
-      lastModified: now,
-      changeFrequency: 'yearly',
-      priority: 0.5,
-    },
-    {
-      url: `${BASE_URL}/privacy`,
-      lastModified: now,
-      changeFrequency: 'yearly',
-      priority: 0.5,
+      priority: 0.75,
     },
   ];
 
-  try {
-    const cars = await getAllCarsFull();
-    const carPages: MetadataRoute.Sitemap = cars
-      .filter((car) => typeof car.id === 'number')
-      .map((car) => ({
-        url: `${BASE_URL}/product/${car.id}`,
-        lastModified: now,
-        changeFrequency: 'weekly',
-        priority: 0.9,
-      }));
-
-    return [...staticPages, ...carPages];
-  } catch {
-    return staticPages;
-  }
+  return staticPages;
 }

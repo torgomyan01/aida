@@ -2,6 +2,9 @@
 
 @plugin './hero.ts';
 
+/* Landing / app components — without this, utilities in e.g. book-demo-modal never ship to CSS */
+@source '../**/*.{js,ts,jsx,tsx,mdx}';
+
 @source '../../node_modules/@heroui/theme/dist';
 @custom-variant dark (&:is(.dark *));
 

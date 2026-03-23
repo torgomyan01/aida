@@ -3,11 +3,25 @@
 import { motion } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useLayoutEffect, useMemo, useRef, useSyncExternalStore } from 'react';
+import { useLayoutEffect, useRef, useSyncExternalStore } from 'react';
 
-import { useLocale } from 'next-intl';
-
-import { useLandingMessages } from '@/i18n/landing/hooks';
+const dashboardItems = [
+  {
+    title: '01. Sales Manager Dashboard',
+    text: 'Track team performance, analyze calls, and identify growth spots',
+    image: '/landing/img/dashboards-img1.png',
+  },
+  {
+    title: '02. C-level Dashboard',
+    text: 'Track team performance, analyze calls, and identify growth spots',
+    image: '/landing/img/dashboards-img2.png',
+  },
+  {
+    title: '03. CX Dashboard',
+    text: 'Track team performance, analyze calls, and identify growth spots',
+    image: '/landing/img/dashboards-img3.png',
+  },
+];
 
 /** Total ScrollTrigger scrub distance for the dashboards pin (px) — matches steps section */
 const DASHBOARDS_PIN_SCROLL_PX = 700;
@@ -18,7 +32,7 @@ function dashboardsScrollStartOffsetPx(): number {
   return window.matchMedia('(max-width: 767px)').matches ? 20 : 200;
 }
 
-const DASHBOARDS_PIN_SCROLL_HEIGHT_MOBILE_PX = 1200;
+const DASHBOARDS_PIN_SCROLL_HEIGHT_MOBILE_PX = 1000;
 
 function dashboardsPinScrollSectionHeight(itemCount: number, isMobile: boolean): string {
   if (isMobile) return `${DASHBOARDS_PIN_SCROLL_HEIGHT_MOBILE_PX}px`;
@@ -39,9 +53,6 @@ function useIsMobileDashboardsViewport() {
 }
 
 export function DashboardsSection() {
-  const messages = useLandingMessages();
-  const locale = useLocale();
-  const dashboardItems = useMemo(() => messages.dashboards.items, [messages.dashboards.items]);
   const isMobile = useIsMobileDashboardsViewport();
   const sectionRef = useRef<HTMLElement | null>(null);
   const pinRef = useRef<HTMLDivElement | null>(null);
@@ -203,7 +214,7 @@ export function DashboardsSection() {
       window.removeEventListener('resize', onResize);
       ctx.revert();
     };
-  }, [isMobile, locale, dashboardItems]);
+  }, [isMobile]);
 
   return (
     <section className="dashboards-block">
@@ -213,14 +224,14 @@ export function DashboardsSection() {
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.7, ease: 'easeOut' }}
         >
-          {messages.dashboards.title}
+          Dashboards for every role
         </motion.h2>
         <motion.p
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.15, ease: 'easeOut' }}
         >
-          {messages.dashboards.subtitle}
+          AIDA provides personalied control panels for different organizational levels
         </motion.p>
 
         <section

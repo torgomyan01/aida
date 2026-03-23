@@ -1,8 +1,12 @@
 'use client';
 
-import Link from 'next/link';
 import clsx from 'clsx';
+import { useLocale } from 'next-intl';
 import { useEffect, useState } from 'react';
+
+import { Link, usePathname } from '@/i18n/navigation';
+import { useLandingMessages } from '@/i18n/landing/hooks';
+import { LANDING_LOCALES } from '@/i18n/landing/messages';
 
 type ActivePage = 'home' | 'how-it-works' | 'about-us';
 
@@ -13,6 +17,9 @@ type LandingHeaderProps = {
 
 export function LandingHeader({ activePage, darkTheme = false }: LandingHeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const messages = useLandingMessages();
+  const locale = useLocale();
+  const pathname = usePathname();
 
   useEffect(() => {
     document.documentElement.classList.toggle('overflow', menuOpen);
@@ -37,27 +44,34 @@ export function LandingHeader({ activePage, darkTheme = false }: LandingHeaderPr
           <ul className="main-menu">
             <li className={clsx(activePage === 'home' && 'active')}>
               <Link href="/" onClick={() => setMenuOpen(false)}>
-                Home
+                {messages.header.nav.home}
               </Link>
             </li>
             <li className={clsx(activePage === 'how-it-works' && 'active')}>
               <Link href="/how-it-works" onClick={() => setMenuOpen(false)}>
-                How It Works
+                {messages.header.nav.howItWorks}
               </Link>
             </li>
             <li className={clsx(activePage === 'about-us' && 'active')}>
               <Link href="/about-us" onClick={() => setMenuOpen(false)}>
-                About Us
+                {messages.header.nav.aboutUs}
               </Link>
             </li>
           </ul>
 
           <div className="languages">
-            <a href="#" className="active">
-              EN
-            </a>
-            <a href="#">RU</a>
-            <a href="#">UZ</a>
+            {LANDING_LOCALES.map((code) => (
+              <Link
+                key={code}
+                href={pathname}
+                locale={code}
+                className={clsx(locale === code && 'active')}
+                onClick={() => setMenuOpen(false)}
+                prefetch={false}
+              >
+                {code.toUpperCase()}
+              </Link>
+            ))}
           </div>
         </div>
 

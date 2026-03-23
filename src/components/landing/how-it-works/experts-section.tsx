@@ -1,42 +1,16 @@
 'use client';
 
+import 'swiper/css/effect-cards';
+
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useMemo, useRef } from 'react';
+import { EffectCards } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-const expertTips = [
-  {
-    title: 'Focus on results',
-    text: 'Talk about value for the customer, rather than product features',
-    image: '/landing/img/experts-img2.jpg',
-  },
-  {
-    title: 'Summarize agreements',
-    text: 'At the end of the call, clearly state the next steps and deadlines',
-    image: '/landing/img/experts-img3.jpg',
-  },
-  {
-    title: 'Ask open-ended questions',
-    text: 'Instead of "Does this suit you?" ask "How do you envision solving this task?"',
-    image: '/landing/img/experts-img4.jpg',
-  },
-  {
-    title: 'Empathy in conversation',
-    text: 'Acknowledge the customer\'s feelings: "I understand how important this is to you"',
-    image: '/landing/img/experts-img5.jpg',
-  },
-  {
-    title: 'Analyze your calls',
-    text: 'Listen to 2-3 of your conversations weekly and look for points of improvement',
-    image: '/landing/img/experts-img6.jpg',
-  },
-  {
-    title: 'Active Listening',
-    text: 'Let the customer speak. Listen 70% of the time, speak 30%',
-    image: '/landing/img/experts-img1.jpg',
-  },
-];
+import { useLocale } from 'next-intl';
+
+import { useLandingMessages } from '@/i18n/landing/hooks';
 
 type SwiperLike = {
   activeIndex: number;
@@ -44,6 +18,10 @@ type SwiperLike = {
 };
 
 export function ExpertsSection() {
+  const messages = useLandingMessages();
+  const locale = useLocale();
+  const expertTips = useMemo(() => messages.experts.tips, [messages.experts.tips]);
+
   const sectionRef = useRef<HTMLElement | null>(null);
   const swiperRef = useRef<SwiperLike | null>(null);
   const activeIndexRef = useRef(0);
@@ -83,22 +61,30 @@ export function ExpertsSection() {
     }, sectionRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [expertTips.length, locale]);
 
   return (
     <section ref={sectionRef} className="from-experts-block">
       <div className="wrapper">
         <div className="experts-info">
           <div className="experts-texts">
-            <span className="style-text">Advice from experts</span>
-            <h2>Learn every day</h2>
-            <p>Best practices from top managers to boost communication efficiency</p>
+            <span className="style-text">{messages.experts.eyebrow}</span>
+            <h2>{messages.experts.title}</h2>
+            <p>{messages.experts.subtitle}</p>
           </div>
 
-          <div className="experts-items" style={{ display: 'block' }}>
+          <div className="experts-items experts-items--swiper">
             <Swiper
+              className="experts-tips-swiper"
+              modules={[EffectCards]}
+              effect="cards"
+              cardsEffect={{
+                slideShadows: true,
+                rotate: true,
+                perSlideRotate: 1.25,
+                perSlideOffset: 14,
+              }}
               slidesPerView={1}
-              spaceBetween={16}
               loop={false}
               allowTouchMove={false}
               grabCursor={true}
@@ -107,11 +93,11 @@ export function ExpertsSection() {
                 activeIndexRef.current = swiper.activeIndex;
                 requestAnimationFrame(() => ScrollTrigger.refresh());
               }}
-              speed={900}
+              speed={750}
             >
               {expertTips.map((tip) => (
                 <SwiperSlide key={tip.title}>
-                  <div className="experts-item" style={{ marginLeft: 0, width: '100%', transform: 'none' }}>
+                  <div className="experts-item experts-item--slide">
                     <div className="img">
                       <img src={tip.image} alt={tip.title} />
                     </div>

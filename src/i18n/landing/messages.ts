@@ -1,0 +1,752 @@
+/**
+ * Landing page copy for EN / RU / UZ.
+ * Arrays (steps, dashboards, experts, demo segments) are duplicated per locale for TTS/display.
+ */
+
+export type LandingLocale = 'en' | 'ru' | 'uz';
+
+export const LANDING_LOCALES: LandingLocale[] = ['en', 'ru', 'uz'];
+
+export const DEFAULT_LANDING_LOCALE: LandingLocale = 'en';
+
+export const STORAGE_KEY_LANDING_LOCALE = 'aida-landing-locale';
+
+export type DemoSegmentMsg = { speaker: number; text: string };
+
+export type LandingMessages = {
+  header: { nav: { home: string; howItWorks: string; aboutUs: string } };
+  footer: { copyright: string };
+  cta: { titleLine1: string; titleLine2: string; subtitle: string; button: string };
+  bookDemo: {
+    title: string;
+    dateLabel: string;
+    timeLabel: string;
+    nameLabel: string;
+    namePlaceholder: string;
+    phoneLabel: string;
+    phonePlaceholder: string;
+    submit: string;
+    closeAria: string;
+    successTitle: string;
+    successBody: string;
+    bookAnother: string;
+    pickDateHint: string;
+    prevMonthAria: string;
+    nextMonthAria: string;
+  };
+  hero: {
+    line1: string;
+    line2: string;
+    subtitle: string;
+    cta: string;
+    slides: { title: string }[];
+  };
+  steps: {
+    sectionTitle: string;
+    sectionSubtitle: string;
+    items: { id: string; title: string; description: string; className: string }[];
+  };
+  industries: {
+    titleLine1: string;
+    titleLine2: string;
+    subtitle: string;
+    labels: string[];
+  };
+  worksBanner: {
+    titleBefore: string;
+    titleHighlight: string;
+    subtitle: string;
+    float1: string;
+    float2: string;
+    float3: string;
+    float4: string;
+  };
+  analysis: {
+    sectionTitle: string;
+    demoTitle: string;
+    demoEyebrow: string;
+    demoHint: string;
+    segments: DemoSegmentMsg[];
+  };
+  dashboards: {
+    title: string;
+    subtitle: string;
+    items: { title: string; text: string; image: string }[];
+  };
+  experts: {
+    eyebrow: string;
+    title: string;
+    subtitle: string;
+    tips: { title: string; text: string; image: string }[];
+  };
+  about: {
+    eyebrow: string;
+    titleAbout: string;
+    titleUs: string;
+    phoneLabel: string;
+    emailLabel: string;
+    addressLabel: string;
+    addressLine1: string;
+    addressLine2: string;
+    leaders: { name: string; bio: string; image: string; top: boolean }[];
+  };
+};
+
+const dashboardImages = [
+  '/landing/img/dashboards-img1.png',
+  '/landing/img/dashboards-img2.png',
+  '/landing/img/dashboards-img3.png',
+];
+
+const expertImages = [
+  '/landing/img/experts-img2.jpg',
+  '/landing/img/experts-img3.jpg',
+  '/landing/img/experts-img4.jpg',
+  '/landing/img/experts-img5.jpg',
+  '/landing/img/experts-img6.jpg',
+  '/landing/img/experts-img1.jpg',
+];
+
+function attachImages<T extends { image: string }>(items: Omit<T, 'image'>[], images: string[]): T[] {
+  return items.map((item, i) => ({ ...item, image: images[i] ?? images[0] })) as T[];
+}
+
+const stepClassNames = ['step1', 'step2', 'step3', 'step4'] as const;
+
+export const landingMessages: Record<LandingLocale, LandingMessages> = {
+  en: {
+    header: {
+      nav: { home: 'Home', howItWorks: 'How It Works', aboutUs: 'About Us' },
+    },
+    footer: { copyright: '© 2026 AIDA Sales. All rights reserved.' },
+    cta: {
+      titleLine1: 'Turn your conversations into',
+      titleLine2: 'business growth',
+      subtitle: 'Book a personalized demo and explore how AIDA drives quality, control, and performance',
+      button: 'Book Demo',
+    },
+    bookDemo: {
+      title: 'Book a demo',
+      dateLabel: 'Preferred date',
+      timeLabel: 'Time slot',
+      nameLabel: 'Your name',
+      namePlaceholder: 'Full name',
+      phoneLabel: 'Phone',
+      phonePlaceholder: '+1 …',
+      submit: 'Send request',
+      closeAria: 'Close',
+      successTitle: 'Request sent',
+      successBody: 'We will contact you shortly to confirm your slot.',
+      bookAnother: 'Book another time',
+      pickDateHint: 'Tap a day in the calendar to select your date.',
+      prevMonthAria: 'Previous month',
+      nextMonthAria: 'Next month',
+    },
+    hero: {
+      line1: 'Tools',
+      line2: 'to increase',
+      subtitle:
+        'We help banks, telecom and government to improve their service — turn every conversation into success',
+      cta: 'Book Demo',
+      slides: [{ title: 'Sales' }, { title: 'Sales 2' }, { title: 'Sales 3' }],
+    },
+    steps: {
+      sectionTitle: '4 Steps to Success',
+      sectionSubtitle: 'From voice to insight. From insight to action',
+      items: [
+        {
+          id: '01.',
+          title: 'Record your conversations',
+          description:
+            'Recording uses both built-in workstation tools and dedicated AIDA Sales microphones',
+          className: stepClassNames[0],
+        },
+        {
+          id: '02.',
+          title: 'Transcribe and diarize',
+          description:
+            'AIDA Sales models handle Uzbek, Russian, English and mixed speech — even in noisy, complex dialogs',
+          className: stepClassNames[1],
+        },
+        {
+          id: '03.',
+          title: 'Analyze & customize dashboards',
+          description:
+            'Dashboards match your industry and goals. Layer scripts and tasks for Commerce, CX, HR, and more',
+          className: stepClassNames[2],
+        },
+        {
+          id: '04.',
+          title: 'Smart tips for managers every day',
+          description:
+            'Dynamic, personalized coaching tips grounded in modern service methods and your company standards',
+          className: stepClassNames[3],
+        },
+      ],
+    },
+    industries: {
+      titleLine1: 'Built for industries',
+      titleLine2: 'with the highest standards',
+      subtitle:
+        'When service quality, control, and conversation analytics matter — AIDA Sales delivers where results are critical',
+      labels: [
+        'Public Sector',
+        'Insurance Companies',
+        'Sales Teams',
+        'Tour Operators & Travel Agencies',
+        'Telecom Operators',
+        'Banks & FinTech',
+      ],
+    },
+    worksBanner: {
+      titleBefore: 'Turn every call into a',
+      titleHighlight: 'growth opportunity',
+      subtitle:
+        "AIDA analyzes your team's customer communications and helps improve service quality at every stage",
+      float1: 'Call Recording',
+      float2: 'Transcribe & Diarize',
+      float3: 'Smart Tips',
+      float4: 'Dashboards',
+    },
+    analysis: {
+      sectionTitle: 'Listen to a call analysis example',
+      demoTitle: 'Demo recording of a customer conversation',
+      demoEyebrow: 'Sample playback',
+      demoHint:
+        'Browser text-to-speech (English). Speaker colors follow the transcript; voices depend on your system.',
+      segments: [
+        {
+          speaker: 0,
+          text: 'In the ancient land of Eldoria, where skies shimmered and forests whispered secrets to the wind, lived a dragon named Zephyros.',
+        },
+        {
+          speaker: 1,
+          text: '[sarcastically] Not the "burn it all down" kind... [giggles] but he was gentle, wise, with eyes like old stars.',
+        },
+        {
+          speaker: 2,
+          text: '[whispers] Even the birds fell silent when he passed. In the ancient land of Eldoria, where skies shimmered and forests whispered secrets to the wind, lived a dragon named Zephyros.',
+        },
+        {
+          speaker: 1,
+          text: '[sarcastically] Not the "burn it all down" kind... [giggles] but he was gentle, wise, with eyes like old stars.',
+        },
+        {
+          speaker: 0,
+          text: '[whispers] Even the birds fell silent when he passed. In the ancient land of Eldoria, where skies shimmered and forests whispered secrets to the wind, lived a dragon named Zephyros. [sarcastically] Not the "burn it all down" kind... [giggles] but he was gentle, wise, with eyes like old stars. [whispers] Even the birds fell silent when he passed.',
+        },
+      ],
+    },
+    dashboards: {
+      title: 'Dashboards for every role',
+      subtitle: 'AIDA provides personalized control panels for different organizational levels',
+      items: attachImages(
+        [
+          {
+            title: '01. Sales Manager Dashboard',
+            text: 'Track team performance, analyze calls, and identify growth spots',
+          },
+          {
+            title: '02. C-level Dashboard',
+            text: 'Track team performance, analyze calls, and identify growth spots',
+          },
+          {
+            title: '03. CX Dashboard',
+            text: 'Track team performance, analyze calls, and identify growth spots',
+          },
+        ],
+        dashboardImages
+      ),
+    },
+    experts: {
+      eyebrow: 'Advice from experts',
+      title: 'Learn every day',
+      subtitle: 'Best practices from top managers to boost communication efficiency',
+      tips: attachImages(
+        [
+          {
+            title: 'Focus on results',
+            text: 'Talk about value for the customer, rather than product features',
+          },
+          {
+            title: 'Summarize agreements',
+            text: 'At the end of the call, clearly state the next steps and deadlines',
+          },
+          {
+            title: 'Ask open-ended questions',
+            text: 'Instead of "Does this suit you?" ask "How do you envision solving this task?"',
+          },
+          {
+            title: 'Empathy in conversation',
+            text: 'Acknowledge the customer\'s feelings: "I understand how important this is to you"',
+          },
+          {
+            title: 'Analyze your calls',
+            text: 'Listen to 2–3 of your conversations weekly and look for points of improvement',
+          },
+          {
+            title: 'Active listening',
+            text: 'Let the customer speak. Listen 70% of the time, speak 30%',
+          },
+        ],
+        expertImages
+      ),
+    },
+    about: {
+      eyebrow: 'Leadership',
+      titleAbout: 'About',
+      titleUs: 'Us',
+      phoneLabel: 'Phone:',
+      emailLabel: 'Email:',
+      addressLabel: 'Address:',
+      addressLine1: 'Tashkent,',
+      addressLine2: 'Bakhodir St., 44a',
+      leaders: [
+        {
+          name: 'Alexander Kornilov, CEO',
+          bio: 'Entrepreneur and strategist. 13 years in e‑commerce; expert in scaling products and launching successful startups.',
+          image: '/landing/img/about-us-img1.jpg',
+          top: false,
+        },
+        {
+          name: 'Gleb Lyubimov, CCO',
+          bio: 'Product manager with 10 years in IT. Strong at processes and growing technology products.',
+          image: '/landing/img/about-us-img2.jpg',
+          top: true,
+        },
+        {
+          name: 'Sardor, CTO',
+          bio: 'Deep tech engineer with 15 years of experience. Author of unique AI solutions and local LLMs.',
+          image: '/landing/img/about-us-img1.jpg',
+          top: false,
+        },
+      ],
+    },
+  },
+
+  ru: {
+    header: {
+      nav: { home: 'Главная', howItWorks: 'Как это работает', aboutUs: 'О нас' },
+    },
+    footer: { copyright: '© 2026 AIDA Sales. Все права защищены.' },
+    cta: {
+      titleLine1: 'Превратите разговоры в',
+      titleLine2: 'рост бизнеса',
+      subtitle:
+        'Запишитесь на персональную демонстрацию и узнайте, как AIDA повышает качество, контроль и эффективность',
+      button: 'Записаться на демо',
+    },
+    bookDemo: {
+      title: 'Запись на демо',
+      dateLabel: 'Предпочтительная дата',
+      timeLabel: 'Интервал времени',
+      nameLabel: 'Ваше имя',
+      namePlaceholder: 'Как к вам обращаться',
+      phoneLabel: 'Телефон',
+      phonePlaceholder: '+7 …',
+      submit: 'Отправить заявку',
+      closeAria: 'Закрыть',
+      successTitle: 'Заявка отправлена',
+      successBody: 'Мы свяжемся с вами для подтверждения времени.',
+      bookAnother: 'Выбрать другое время',
+      pickDateHint: 'Выберите день в календаре.',
+      prevMonthAria: 'Предыдущий месяц',
+      nextMonthAria: 'Следующий месяц',
+    },
+    hero: {
+      line1: 'Инструменты',
+      line2: 'для роста',
+      subtitle:
+        'Помогаем банкам, телеком‑операторам и госсектору улучшать сервис — превращаем каждый диалог в результат',
+      cta: 'Записаться на демо',
+      slides: [{ title: 'Продажи' }, { title: 'Продажи 2' }, { title: 'Продажи 3' }],
+    },
+    steps: {
+      sectionTitle: '4 шага к успеху',
+      sectionSubtitle: 'От голоса к инсайту. От инсайта к действию',
+      items: [
+        {
+          id: '01.',
+          title: 'Записывайте разговоры',
+          description:
+            'Запись ведётся штатными средствами рабочего места и специальными микрофонами AIDA Sales',
+          className: stepClassNames[0],
+        },
+        {
+          id: '02.',
+          title: 'Транскрибация и диаризация',
+          description:
+            'Модели AIDA Sales работают с узбекским, русским, английским и смешанной речью — даже при шуме и сложном контексте',
+          className: stepClassNames[1],
+        },
+        {
+          id: '03.',
+          title: 'Анализ и настраиваемые дашборды',
+          description:
+            'Дашборды под отрасль и задачи. Скрипты и цели для Commerce, CX, HR и других подразделений',
+          className: stepClassNames[2],
+        },
+        {
+          id: '04.',
+          title: 'Умные советы менеджерам каждый день',
+          description:
+            'Динамичные персональные подсказки на основе современных практик сервиса и стандартов вашей компании',
+          className: stepClassNames[3],
+        },
+      ],
+    },
+    industries: {
+      titleLine1: 'Создано для отраслей',
+      titleLine2: 'с самыми высокими стандартами',
+      subtitle:
+        'Когда важны качество сервиса, контроль и аналитика разговоров — AIDA Sales даёт результат там, где это критично',
+      labels: [
+        'Госсектор',
+        'Страховые компании',
+        'Отделы продаж',
+        'Туроператоры и турагентства',
+        'Телеком‑операторы',
+        'Банки и FinTech',
+      ],
+    },
+    worksBanner: {
+      titleBefore: 'Превратите каждый звонок в',
+      titleHighlight: 'возможность роста',
+      subtitle:
+        'AIDA анализирует коммуникации с клиентами и помогает улучшать качество сервиса на каждом этапе',
+      float1: 'Запись звонков',
+      float2: 'Транскрибация и диаризация',
+      float3: 'Умные советы',
+      float4: 'Дашборды',
+    },
+    analysis: {
+      sectionTitle: 'Пример анализа звонка',
+      demoTitle: 'Демозапись разговора с клиентом',
+      demoEyebrow: 'Демо воспроизведение',
+      demoHint:
+        'Синтез речи в браузере (русский). Цвета спикеров соответствуют тексту; голоса зависят от системы.',
+      segments: [
+        {
+          speaker: 0,
+          text: 'В древней стране Элдория, где небо мерцало, а леса шептали ветру тайны, жил дракон по имени Зефирос.',
+        },
+        {
+          speaker: 1,
+          text: '[иронично] Не из тех, кто «всё сжечь»... [смех] но он был добрым и мудрым, с глазами, как старые звёзды.',
+        },
+        {
+          speaker: 2,
+          text: '[шёпотом] Даже птицы замирали, когда он проходил. В древней стране Элдория, где небо мерцало, а леса шептали ветру тайны, жил дракон по имени Зефирос.',
+        },
+        {
+          speaker: 1,
+          text: '[иронично] Не из тех, кто «всё сжечь»... [смех] но он был добрым и мудрым, с глазами, как старые звёзды.',
+        },
+        {
+          speaker: 0,
+          text: '[шёпотом] Даже птицы замирали... [иронично] Не из тех, кто «всё сжечь»... [смех] но он был добрым и мудрым. [шёпотом] Даже птицы замирали, когда он проходил.',
+        },
+      ],
+    },
+    dashboards: {
+      title: 'Дашборды для каждой роли',
+      subtitle: 'Персональные панели управления для разных уровней организации',
+      items: attachImages(
+        [
+          {
+            title: '01. Дашборд sales‑менеджера',
+            text: 'Отслеживайте KPI команды, анализируйте звонки и находите точки роста',
+          },
+          {
+            title: '02. Дашборд для C‑level',
+            text: 'Отслеживайте KPI команды, анализируйте звонки и находите точки роста',
+          },
+          {
+            title: '03. CX‑дашборд',
+            text: 'Отслеживайте KPI команды, анализируйте звонки и находите точки роста',
+          },
+        ],
+        dashboardImages
+      ),
+    },
+    experts: {
+      eyebrow: 'Советы экспертов',
+      title: 'Учитесь каждый день',
+      subtitle: 'Лучшие практики от топ‑менеджеров для эффективных коммуникаций',
+      tips: attachImages(
+        [
+          {
+            title: 'Фокус на результате',
+            text: 'Говорите о ценности для клиента, а не только о функциях продукта',
+          },
+          {
+            title: 'Фиксируйте договорённости',
+            text: 'В конце звонка чётко назовите следующие шаги и сроки',
+          },
+          {
+            title: 'Задавайте открытые вопросы',
+            text: 'Вместо «Вам подходит?» спросите «Как вы видите решение этой задачи?»',
+          },
+          {
+            title: 'Эмпатия в диалоге',
+            text: 'Признайте чувства клиента: «Я понимаю, насколько это важно для вас»',
+          },
+          {
+            title: 'Разбирайте свои звонки',
+            text: 'Прослушивайте 2–3 разговора в неделю и ищите точки роста',
+          },
+          {
+            title: 'Активное слушание',
+            text: 'Дайте клиенту говорить. Слушайте 70% времени, говорите 30%',
+          },
+        ],
+        expertImages
+      ),
+    },
+    about: {
+      eyebrow: 'Команда',
+      titleAbout: 'О',
+      titleUs: 'нас',
+      phoneLabel: 'Телефон:',
+      emailLabel: 'Email:',
+      addressLabel: 'Адрес:',
+      addressLine1: 'г. Ташкент,',
+      addressLine2: 'ул. Баходыра, 44а',
+      leaders: [
+        {
+          name: 'Александр Корнилов, CEO',
+          bio: 'Предприниматель и стратег. 13 лет в e‑commerce, эксперт по кратному росту продуктов и запуску стартапов.',
+          image: '/landing/img/about-us-img1.jpg',
+          top: false,
+        },
+        {
+          name: 'Глеб Любимов, CCO',
+          bio: 'Продакт‑менеджер с 10‑летним опытом в IT. Сильный в процессах и развитии технологических продуктов.',
+          image: '/landing/img/about-us-img2.jpg',
+          top: true,
+        },
+        {
+          name: 'Сардор, CTO',
+          bio: 'Deep Tech инженер с 15‑летним опытом. Автор уникальных AI‑решений и локальных LLM.',
+          image: '/landing/img/about-us-img1.jpg',
+          top: false,
+        },
+      ],
+    },
+  },
+
+  uz: {
+    header: {
+      nav: { home: 'Bosh sahifa', howItWorks: 'Qanday ishlaydi', aboutUs: 'Biz haqimizda' },
+    },
+    footer: { copyright: '© 2026 AIDA Sales. Barcha huquqlar himoyalangan.' },
+    cta: {
+      titleLine1: 'Suhbatlaringizni',
+      titleLine2: 'biznes o‘simiga aylantiring',
+      subtitle:
+        'Shaxsiy demo bron qiling va AIDA sifat, nazorat va samaradorlikni qanday oshirishini ko‘ring',
+      button: 'Demoga yozilish',
+    },
+    bookDemo: {
+      title: 'Demoga yozilish',
+      dateLabel: 'Qulay sana',
+      timeLabel: 'Vaqt oralig‘i',
+      nameLabel: 'Ismingiz',
+      namePlaceholder: 'To‘liq ism',
+      phoneLabel: 'Telefon',
+      phonePlaceholder: '+998 …',
+      submit: 'So‘rov yuborish',
+      closeAria: 'Yopish',
+      successTitle: 'So‘rov yuborildi',
+      successBody: 'Vaqtini tasdiqlash uchun tez orada bog‘lanamiz.',
+      bookAnother: 'Boshqa vaqt tanlash',
+      pickDateHint: 'Sanani tanlash uchun kalendarda kunning ustiga bosing.',
+      prevMonthAria: 'Oldingi oy',
+      nextMonthAria: 'Keyingi oy',
+    },
+    hero: {
+      line1: 'Savdoni',
+      line2: 'oshirish uchun',
+      subtitle:
+        'Banklar, telekom va davlat tashkilotlariga xizmatni yaxshilashda yordam beramiz — har bir suhbatni muvaffaqiyatga aylantiramiz',
+      cta: 'Demoga yozilish',
+      slides: [{ title: 'Sotuv' }, { title: 'Sotuv 2' }, { title: 'Sotuv 3' }],
+    },
+    steps: {
+      sectionTitle: 'Muvaffaqiyatga 4 qadam',
+      sectionSubtitle: 'Ovozdan tushunchaga. Tushunchadan harakatga',
+      items: [
+        {
+          id: '01.',
+          title: 'Suhbatlarni yozib oling',
+          description:
+            'Yozuv ishchi stansiya vositalari va maxsus AIDA Sales mikrofonlari orqali amalga oshiriladi',
+          className: stepClassNames[0],
+        },
+        {
+          id: '02.',
+          title: 'Transkripsiya va diarizatsiya',
+          description:
+            'AIDA Sales modellari o‘zbek, rus, ingliz va aralash nutqni shovqin va murakkab kontekstda ham qayta ishlaydi',
+          className: stepClassNames[1],
+        },
+        {
+          id: '03.',
+          title: 'Tahlil va moslashtirilgan dashboardlar',
+          description:
+            'Dashboardlar soha va maqsadlarga mos. Commerce, CX, HR va boshqa bo‘limlar uchun skriptlar va vazifalar',
+          className: stepClassNames[2],
+        },
+        {
+          id: '04.',
+          title: 'Har kuni menejerlar uchun aqlli maslahatlar',
+          description:
+            'Zamonaviy servis amaliyoti va kompaniya standartlariga asoslangan dinamik, shaxsiylashtirilgan maslahatlar',
+          className: stepClassNames[3],
+        },
+      ],
+    },
+    industries: {
+      titleLine1: 'Eng yuqori standartli',
+      titleLine2: 'sohalar uchun qurilgan',
+      subtitle:
+        'Xizmat sifati, nazorat va suhbat analitikasi muhim bo‘lsa — AIDA Sales natija talab qilinadigan joyda yordam beradi',
+      labels: [
+        'Davlat sektori',
+        'Sug‘urta kompaniyalari',
+        'Sotuv jamoalari',
+        'Tur operatorlari va agentliklar',
+        'Telekom operatorlar',
+        'Banklar va FinTech',
+      ],
+    },
+    worksBanner: {
+      titleBefore: 'Har bir qo‘ng‘iroqni',
+      titleHighlight: 'o‘sish imkoniyatiga',
+      subtitle:
+        'AIDA jamoangizning mijoz bilan muloqotini tahlil qiladi va xizmat sifati har bosqichda yaxshilanishiga yordam beradi',
+      float1: 'Qo‘ng‘iroq yozuvi',
+      float2: 'Transkripsiya va diarizatsiya',
+      float3: 'Aqlli maslahatlar',
+      float4: 'Dashboardlar',
+    },
+    analysis: {
+      sectionTitle: 'Qo‘ng‘iroq tahlili namunasini tinglang',
+      demoTitle: 'Mijoz suhbati demo yozuvi',
+      demoEyebrow: 'Namuna ijrosi',
+      demoHint:
+        'Brauzer matn-sintezi (o‘zbekcha). Spiker ranglari transkriptga mos; ovozlar tizimga bog‘liq.',
+      segments: [
+        {
+          speaker: 0,
+          text: 'Osmonlar titrab, o‘rmonlar shamolga sirlarni aytgan qadimiy Eldoriya yerida Zephyros nomli ajdar yashagan.',
+        },
+        {
+          speaker: 1,
+          text: '[ironik] “Hammasini yoqib yuboradigan” tip emas... [kulgi] u muloyim va dono edi, ko‘zlari eski yulduzlarga o‘xshardi.',
+        },
+        {
+          speaker: 2,
+          text: '[pichir] Hatto qushlar ham jim tortgan. Osmonlar titrab, o‘rmonlar shamolga sirlarni aytgan qadimiy Eldoriya yerida Zephyros nomli ajdar yashagan.',
+        },
+        {
+          speaker: 1,
+          text: '[ironik] “Hammasini yoqib yuboradigan” tip emas... [kulgi] u muloyim va dono edi, ko‘zlari eski yulduzlarga o‘xshardi.',
+        },
+        {
+          speaker: 0,
+          text: '[pichir] Hatto qushlar ham jim tortgan... [ironik] “Hammasini yoqib yuboradigan” emas... [kulgi] u muloyim va dono edi. [pichir] U o‘tganda hatto qushlar ham jim tortgan.',
+        },
+      ],
+    },
+    dashboards: {
+      title: 'Har bir rol uchun dashboardlar',
+      subtitle: 'Turli tashkilot darajalari uchun shaxsiylashtirilgan boshqaruv panellari',
+      items: attachImages(
+        [
+          {
+            title: '01. Sales menejer dashboard',
+            text: 'Jamoa ko‘rsatkichlarini kuzating, qo‘ng‘iroqlarni tahlil qiling va o‘sish nuqtalarini toping',
+          },
+          {
+            title: '02. C-level dashboard',
+            text: 'Jamoa ko‘rsatkichlarini kuzating, qo‘ng‘iroqlarni tahlil qiling va o‘sish nuqtalarini toping',
+          },
+          {
+            title: '03. CX dashboard',
+            text: 'Jamoa ko‘rsatkichlarini kuzating, qo‘ng‘iroqlarni tahlil qiling va o‘sish nuqtalarini toping',
+          },
+        ],
+        dashboardImages
+      ),
+    },
+    experts: {
+      eyebrow: 'Mutaxassislar maslahati',
+      title: 'Har kuni o‘rganing',
+      subtitle: 'Muloqot samaradorligini oshirish uchun yetakchi menejerlar amaliyoti',
+      tips: attachImages(
+        [
+          {
+            title: 'Natijaga e’tibor',
+            text: 'Mijoz uchun qiymat haqingda gapiring, faqat mahsulot xususiyatlari emas',
+          },
+          {
+            title: 'Kelishuvlarni qisqacha',
+            text: 'Qo‘ng‘iroq oxirida keyingi qadamlar va muddatlarni aniq ayting',
+          },
+          {
+            title: 'Ochiq savollar',
+            text: '“Sizga mosmi?” o‘rniga “Bu vazifani qanday yechasiz?” deb so‘rang',
+          },
+          {
+            title: 'Suhbatda empatiya',
+            text: 'Mijozning hissini tan oling: “Bu siz uchun qanchalik muhimligini tushunaman”',
+          },
+          {
+            title: 'Qo‘ng‘iroqlarni tahlil qiling',
+            text: 'Haftasiga 2–3 ta suhbatni tinglang va yaxshilanish nuqtalarini qidiring',
+          },
+          {
+            title: 'Faol tinglash',
+            text: 'Mijozga gapirishga imkon bering. 70% vaqtingizni tinglashga, 30%ni gapirishga',
+          },
+        ],
+        expertImages
+      ),
+    },
+    about: {
+      eyebrow: 'Jamoa',
+      titleAbout: 'Biz',
+      titleUs: 'haqimizda',
+      phoneLabel: 'Telefon:',
+      emailLabel: 'Email:',
+      addressLabel: 'Manzil:',
+      addressLine1: 'Toshkent sh.,',
+      addressLine2: 'Bahodir ko‘chasi, 44a',
+      leaders: [
+        {
+          name: 'Aleksandr Kornilov, CEO',
+          bio: 'Tadbirkor va strateg. 13 yil e‑commerce’da; mahsulotlarni o‘sirish va startaplarni ishga tushirish bo‘yicha mutaxassis.',
+          image: '/landing/img/about-us-img1.jpg',
+          top: false,
+        },
+        {
+          name: 'Gleb Lyubimov, CCO',
+          bio: '10 yillik IT tajribasiga ega product menejer. Jarayonlar va texnologik mahsulotlarni rivojlantirishda kuchli.',
+          image: '/landing/img/about-us-img2.jpg',
+          top: true,
+        },
+        {
+          name: 'Sardor, CTO',
+          bio: '15 yillik tajribaga ega Deep Tech muhandisi. Noyob AI yechimlari va mahalliy LLM muallifi.',
+          image: '/landing/img/about-us-img1.jpg',
+          top: false,
+        },
+      ],
+    },
+  },
+};
+
+export function getLandingMessages(locale: LandingLocale): LandingMessages {
+  return landingMessages[locale] ?? landingMessages[DEFAULT_LANDING_LOCALE];
+}

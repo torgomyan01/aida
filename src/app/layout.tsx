@@ -9,6 +9,7 @@ import './tailwind.css';
 
 import NextTopLoader from 'nextjs-toploader';
 import type { Metadata } from 'next';
+import { getLocale } from 'next-intl/server';
 
 import { UiProviders } from '@/components/common/UIProvider/ui-provider';
 
@@ -79,6 +80,8 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getLocale();
+
   const structuredData = {
     '@context': 'https://schema.org',
     '@graph': [
@@ -146,7 +149,16 @@ export default async function RootLayout({
   };
 
   return (
-    <html lang="ru" suppressHydrationWarning={true} className="light">
+    <html lang={locale} suppressHydrationWarning={true} className="light">
+      <head>
+        <link rel="stylesheet" href="/landing/css/style.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Unbounded:wght@200..900&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <body className="text-foreground bg-background">
         <script
           type="application/ld+json"
