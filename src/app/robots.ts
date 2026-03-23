@@ -3,7 +3,7 @@ import type { MetadataRoute } from 'next';
 
 export default async function robots(): Promise<MetadataRoute.Robots> {
   const headersList = await headers();
-  const host = headersList.get('host') || 'nampoputi.rent';
+  const host = headersList.get('host') || 'aida-sales.uz';
   const proto = headersList.get('x-forwarded-proto') || 'https';
   const baseUrl = `${proto}://${host}`;
 

@@ -3,7 +3,7 @@ import type { MetadataRoute } from 'next';
 const BASE_URL =
   process.env.NEXT_PUBLIC_APP_URL ||
   process.env.NEXTAUTH_URL ||
-  'https://nampoputi.rent';
+  'https://aida-sales.uz';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();

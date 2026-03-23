@@ -13,56 +13,54 @@ import { getLocale } from 'next-intl/server';
 
 import { UiProviders } from '@/components/common/UIProvider/ui-provider';
 
-const SITE_NAME = 'Нам по пути';
+const SITE_NAME = 'AIDA Sales';
 const DEFAULT_DESCRIPTION =
-  'Аренда автомобилей в Москве без водителя. Долгосрочная аренда авто от эконом до бизнес-премиум. Оформление заявки онлайн, доставка по городу. ОСАГО и КАСКО.';
+  'AI conversation intelligence for sales, support, and contact centers. Analyze calls, track quality, coach teams, and grow revenue with actionable insights.';
 const BASE_URL =
   process.env.NEXT_PUBLIC_APP_URL ||
   process.env.NEXTAUTH_URL ||
-  'https://nampoputi.rent';
+  'https://aida-sales.uz';
 const DEVELOPER_NAME = 'Torgomyan.Studio';
 const DEVELOPER_URL = 'https://torgomyan-studio.am/';
-const CONTACT_PHONE = '+79005001010';
-const CONTACT_PHONE_DISPLAY = '+7 (900) 500-10-10';
-const CONTACT_EMAIL = 'info@nampoputi.rent';
-const CONTACT_ADDRESS = 'г. Москва, ул. Удальцова, д. 36, эт. 3 ком 13-18';
-const WHATSAPP_URL = 'https://wa.me/79857396760';
-const TELEGRAM_URL = 'https://t.me/ArendaAutoMoscow';
-const TELEGRAM_URL_2 = 'https://t.me/aaaallleeexxxx';
+const CONTACT_PHONE = '+998999999999';
+const CONTACT_PHONE_DISPLAY = '+998 99 999 99 99';
+const CONTACT_EMAIL = 'aida@sales.uz';
+const CONTACT_ADDRESS = 'Tashkent, Bakhodir St., 44a';
+const WEBSITE_LANGUAGE = ['en', 'ru', 'uz'];
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   applicationName: SITE_NAME,
   title: {
-    default: `${SITE_NAME} — Аренда автомобилей в Москве без водителя`,
+    default: `${SITE_NAME} — AI Conversation Intelligence Platform`,
     template: `%s | ${SITE_NAME}`,
   },
   description: DEFAULT_DESCRIPTION,
   keywords: [
-    'аренда автомобилей',
-    'аренда авто Москва',
-    'прокат автомобилей',
-    'долгосрочная аренда авто',
-    'аренда авто без водителя',
-    'аренда машин',
-    'прокат авто Москва',
-    'аренда автомобиля',
-    'аренда авто эконом',
-    'аренда авто бизнес',
+    'conversation intelligence',
+    'call analytics',
+    'sales coaching',
+    'speech analytics',
+    'contact center QA',
+    'customer service quality',
+    'ai call transcription',
+    'manager dashboards',
+    'sales performance insights',
+    'aida sales',
   ].join(', '),
   authors: [{ name: SITE_NAME }],
   creator: SITE_NAME,
   openGraph: {
     type: 'website',
-    locale: 'ru_RU',
+    locale: 'en_US',
     siteName: SITE_NAME,
-    title: `${SITE_NAME} — Аренда автомобилей в Москве`,
+    title: `${SITE_NAME} — AI Conversation Intelligence`,
     description: DEFAULT_DESCRIPTION,
     url: BASE_URL,
   },
   twitter: {
     card: 'summary_large_image',
-    title: `${SITE_NAME} — Аренда автомобилей в Москве`,
+    title: `${SITE_NAME} — AI Conversation Intelligence`,
     description: DEFAULT_DESCRIPTION,
   },
   robots: {
@@ -90,7 +88,7 @@ export default async function RootLayout({
         '@id': `${BASE_URL}#website`,
         url: BASE_URL,
         name: SITE_NAME,
-        inLanguage: 'ru-RU',
+        inLanguage: WEBSITE_LANGUAGE.join(','),
         description: DEFAULT_DESCRIPTION,
         publisher: {
           '@id': `${BASE_URL}#organization`,
@@ -100,34 +98,30 @@ export default async function RootLayout({
         },
       },
       {
-        '@type': ['Organization', 'AutomotiveBusiness'],
+        '@type': ['Organization', 'SoftwareApplication'],
         '@id': `${BASE_URL}#organization`,
         name: SITE_NAME,
         url: BASE_URL,
         email: CONTACT_EMAIL,
         telephone: CONTACT_PHONE,
-        logo: `${BASE_URL}/img/logo.svg`,
-        image: `${BASE_URL}/img/logo.svg`,
+        logo: `${BASE_URL}/landing/img/logo.svg`,
+        image: `${BASE_URL}/landing/img/logo.svg`,
         address: {
           '@type': 'PostalAddress',
           streetAddress: CONTACT_ADDRESS,
-          addressLocality: 'Москва',
-          addressCountry: 'RU',
+          addressLocality: 'Tashkent',
+          addressCountry: 'UZ',
         },
         contactPoint: [
           {
             '@type': 'ContactPoint',
-            contactType: 'customer support',
+            contactType: 'sales',
             telephone: CONTACT_PHONE,
             email: CONTACT_EMAIL,
-            availableLanguage: ['ru'],
+            availableLanguage: WEBSITE_LANGUAGE,
           },
         ],
-        sameAs: [WHATSAPP_URL, TELEGRAM_URL, TELEGRAM_URL_2],
-        areaServed: {
-          '@type': 'City',
-          name: 'Москва',
-        },
+        areaServed: 'Worldwide',
       },
       {
         '@type': 'Organization',
@@ -140,7 +134,7 @@ export default async function RootLayout({
         '@id': `${BASE_URL}#webpage`,
         url: BASE_URL,
         name: SITE_NAME,
-        inLanguage: 'ru-RU',
+        inLanguage: WEBSITE_LANGUAGE.join(','),
         about: {
           '@id': `${BASE_URL}#organization`,
         },
