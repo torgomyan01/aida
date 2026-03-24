@@ -10,7 +10,7 @@ import { useLocale } from 'next-intl';
 import { useLandingMessages } from '@/i18n/landing/hooks';
 
 /** Total ScrollTrigger scrub distance for the dashboards pin (px) — matches steps section */
-const DASHBOARDS_PIN_SCROLL_PX = 700;
+const DASHBOARDS_PIN_SCROLL_PX = 1200;
 
 /** `start` vertical offset (px): tighter on mobile, earlier pin on desktop */
 function dashboardsScrollStartOffsetPx(): number {
@@ -21,8 +21,7 @@ function dashboardsScrollStartOffsetPx(): number {
 const DASHBOARDS_PIN_SCROLL_HEIGHT_MOBILE_PX = 1200;
 
 function dashboardsPinScrollSectionHeight(itemCount: number, isMobile: boolean): string {
-  if (isMobile) return `${DASHBOARDS_PIN_SCROLL_HEIGHT_MOBILE_PX}px`;
-  return `${(itemCount - 1) * 20 + 58}vh`;
+  return `1600px`;
 }
 
 function useIsMobileDashboardsViewport() {

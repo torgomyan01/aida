@@ -28,12 +28,11 @@ const stepImages = [
 
 /** Total ScrollTrigger scrub distance for the whole steps pin (px) */
 function getStepsPinScrollPx() {
-  if (typeof window === 'undefined') return 500;
-  return window.innerWidth <= 767 ? 200 : 500;
+  return 1200;
 }
 /** Pin wrapper height — tight to avoid empty green scroll after pin */
 function stepsPinContainerHeightVh(stepCount: number) {
-  return `${(stepCount - 1) * 20 + 58}vh`;
+  return `1700px`;
 }
 
 const BANNER_DELAY_MS = 8000;
