@@ -19,20 +19,17 @@ export type LandingMessages = {
   cta: { titleLine1: string; titleLine2: string; subtitle: string; button: string };
   bookDemo: {
     title: string;
-    dateLabel: string;
-    timeLabel: string;
     nameLabel: string;
     namePlaceholder: string;
     phoneLabel: string;
     phonePlaceholder: string;
+    emailLabel: string;
+    emailPlaceholder: string;
     submit: string;
     closeAria: string;
     successTitle: string;
     successBody: string;
     bookAnother: string;
-    pickDateHint: string;
-    prevMonthAria: string;
-    nextMonthAria: string;
   };
   hero: {
     line1: string;
@@ -127,20 +124,17 @@ export const landingMessages: Record<LandingLocale, LandingMessages> = {
     },
     bookDemo: {
       title: 'Book a demo',
-      dateLabel: 'Preferred date',
-      timeLabel: 'Time slot',
       nameLabel: 'Your name',
       namePlaceholder: 'Full name',
       phoneLabel: 'Phone',
       phonePlaceholder: '+1 …',
+      emailLabel: 'Email',
+      emailPlaceholder: 'you@company.com',
       submit: 'Send request',
       closeAria: 'Close',
       successTitle: 'Request sent',
-      successBody: 'We will contact you shortly to confirm your slot.',
-      bookAnother: 'Book another time',
-      pickDateHint: 'Tap a day in the calendar to select your date.',
-      prevMonthAria: 'Previous month',
-      nextMonthAria: 'Next month',
+      successBody: 'We will contact you shortly.',
+      bookAnother: 'Send another request',
     },
     hero: {
       line1: 'Tools',
@@ -338,20 +332,17 @@ export const landingMessages: Record<LandingLocale, LandingMessages> = {
     },
     bookDemo: {
       title: 'Запись на демо',
-      dateLabel: 'Предпочтительная дата',
-      timeLabel: 'Интервал времени',
       nameLabel: 'Ваше имя',
       namePlaceholder: 'Как к вам обращаться',
       phoneLabel: 'Телефон',
       phonePlaceholder: '+7 …',
+      emailLabel: 'Email',
+      emailPlaceholder: 'you@company.com',
       submit: 'Отправить заявку',
       closeAria: 'Закрыть',
       successTitle: 'Заявка отправлена',
-      successBody: 'Мы свяжемся с вами для подтверждения времени.',
-      bookAnother: 'Выбрать другое время',
-      pickDateHint: 'Выберите день в календаре.',
-      prevMonthAria: 'Предыдущий месяц',
-      nextMonthAria: 'Следующий месяц',
+      successBody: 'Мы свяжемся с вами в ближайшее время.',
+      bookAnother: 'Отправить ещё одну заявку',
     },
     hero: {
       line1: 'Инструменты',
@@ -549,20 +540,17 @@ export const landingMessages: Record<LandingLocale, LandingMessages> = {
     },
     bookDemo: {
       title: 'Demoga yozilish',
-      dateLabel: 'Qulay sana',
-      timeLabel: 'Vaqt oralig‘i',
       nameLabel: 'Ismingiz',
       namePlaceholder: 'To‘liq ism',
       phoneLabel: 'Telefon',
       phonePlaceholder: '+998 …',
+      emailLabel: 'Email',
+      emailPlaceholder: 'you@company.com',
       submit: 'So‘rov yuborish',
       closeAria: 'Yopish',
       successTitle: 'So‘rov yuborildi',
-      successBody: 'Vaqtini tasdiqlash uchun tez orada bog‘lanamiz.',
-      bookAnother: 'Boshqa vaqt tanlash',
-      pickDateHint: 'Sanani tanlash uchun kalendarda kunning ustiga bosing.',
-      prevMonthAria: 'Oldingi oy',
-      nextMonthAria: 'Keyingi oy',
+      successBody: 'Tez orada siz bilan bog‘lanamiz.',
+      bookAnother: 'Yana so‘rov yuborish',
     },
     hero: {
       line1: 'Savdoni',

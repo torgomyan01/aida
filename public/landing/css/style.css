@@ -1003,12 +1003,20 @@ button.green-btn {
 }
 @media (max-width: 767px) {
   .from-experts-block .experts-info .experts-items {
-    margin-right: 20px;
-    width: 250px;
+    width: 90vw;
+    width: 90dvw;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
   }
   .from-experts-block .experts-info .experts-items .experts-tips-swiper.swiper {
+    width: 100%;
     padding: 16px 18px;
     margin: -16px -18px;
+    box-sizing: border-box;
+  }
+  .from-experts-block .experts-info .experts-items .experts-tips-swiper.swiper-cards .swiper-slide {
+    width: 100% !important;
   }
 }
 .from-experts-block .experts-info .experts-items .experts-item {
@@ -1806,12 +1814,6 @@ button.green-btn {
   padding: 24px;
   box-shadow: 0 24px 80px rgba(22, 51, 0, 0.18);
   box-sizing: border-box;
-}
-
-.book-demo-modal__panel--split {
-  max-width: min(960px, calc(100vw - 32px));
-  max-width: min(960px, calc(100dvw - 32px));
-  padding: 28px 32px 32px;
   display: flex;
   flex-direction: column;
   max-height: min(92vh, calc(100vh - 48px));
@@ -1864,11 +1866,6 @@ button.green-btn {
   font-family: "Nunito Sans", sans-serif;
 }
 
-.book-demo-modal__title--split {
-  font-size: clamp(1.25rem, 2.5vw, 1.5rem);
-  line-height: 1.25;
-}
-
 .book-demo-modal__text {
   margin: 12px 0 0;
   font-size: 15px;
@@ -1911,29 +1908,8 @@ button.green-btn {
   margin-top: 16px;
 }
 
-.book-demo-modal__form .book-demo-modal__field--after-split {
-  margin-top: 28px;
-}
-
-/* Calendar left | time slots right */
-.book-demo-modal__datetime-row {
-  margin-top: 22px;
-  display: grid;
-  grid-template-columns: minmax(300px, 1fr) minmax(240px, 300px);
-  gap: 0 32px;
-  align-items: stretch;
-}
-
-.book-demo-modal__calendar-col {
-  min-width: 0;
-}
-
-.book-demo-modal__time-col {
-  min-width: 0;
-  padding-left: 28px;
-  border-left: 1px solid rgba(22, 51, 0, 0.12);
-  display: flex;
-  flex-direction: column;
+.book-demo-modal__form .book-demo-modal__field--first {
+  margin-top: 20px;
 }
 
 @media (max-width: 720px) {
@@ -1944,7 +1920,7 @@ button.green-btn {
     padding-bottom: env(safe-area-inset-bottom, 0px);
   }
 
-  .book-demo-modal__panel--split {
+  .book-demo-modal__panel {
     width: 100%;
     max-width: none;
     margin: 0;
@@ -1998,8 +1974,7 @@ button.green-btn {
   }
 
   .book-demo-modal__input,
-  .book-demo-modal__select,
-  .book-demo-modal__time-select-trigger {
+  .book-demo-modal__select {
     min-height: 48px;
     padding-top: 12px;
     padding-bottom: 12px;
@@ -2012,26 +1987,10 @@ button.green-btn {
     padding-bottom: 16px;
   }
 
-  .book-demo-modal__datetime-row {
-    grid-template-columns: 1fr;
-    gap: 20px 0;
-  }
-
-  .book-demo-modal__time-col {
-    padding-left: 0;
-    padding-top: 22px;
-    border-left: none;
-    border-top: 1px solid rgba(22, 51, 0, 0.12);
-  }
-
-  .book-demo-modal__calendar-wrap {
-    min-height: auto;
-    padding: 14px 12px 16px;
-  }
 }
 
 @media (max-width: 720px) and (orientation: landscape) {
-  .book-demo-modal__panel--split {
+  .book-demo-modal__panel {
     max-height: min(88vh, 100vh);
     max-height: min(88dvh, 100dvh);
     border-radius: 16px 16px 0 0;
@@ -2039,7 +1998,7 @@ button.green-btn {
 }
 
 @media (max-width: 400px) {
-  .book-demo-modal__panel--split {
+  .book-demo-modal__panel {
     padding-left: 14px;
     padding-right: 14px;
   }
@@ -2086,314 +2045,6 @@ button.green-btn {
 
 .book-demo-modal__success {
   padding-right: 8px;
-}
-
-/* Custom AIDA calendar (no UI library) — #163300 / #9FE870 / cream */
-.book-demo-modal__calendar-wrap {
-  margin-top: 10px;
-  border-radius: 20px;
-  border: 1px solid rgba(22, 51, 0, 0.11);
-  background: linear-gradient(155deg, #fffefb 0%, #f5efe6 38%, #e8f3e0 100%);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.9),
-    0 10px 40px rgba(22, 51, 0, 0.06);
-  padding: 18px 16px 22px;
-  width: 100%;
-  box-sizing: border-box;
-  min-height: 380px;
-}
-
-.book-demo-cal {
-  width: 100%;
-  font-family: "Nunito Sans", sans-serif;
-  color: #163300;
-}
-
-.book-demo-cal__toolbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 16px;
-}
-
-.book-demo-cal__nav {
-  flex-shrink: 0;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  border: 1px solid rgba(22, 51, 0, 0.14);
-  background: #fff;
-  color: #163300;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 6px rgba(22, 51, 0, 0.06);
-  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
-}
-
-.book-demo-cal__nav:hover:not(:disabled) {
-  background: #9fe870;
-  border-color: #163300;
-  box-shadow: 0 3px 12px rgba(22, 51, 0, 0.1);
-}
-
-.book-demo-cal__nav:active:not(:disabled) {
-  transform: scale(0.94);
-}
-
-.book-demo-cal__nav:disabled {
-  opacity: 0.32;
-  cursor: not-allowed;
-  box-shadow: none;
-}
-
-.book-demo-cal__nav-icon {
-  font-size: 1.35rem;
-  line-height: 1;
-  font-weight: 500;
-  margin-top: -2px;
-}
-
-.book-demo-cal__caption {
-  flex: 1;
-  text-align: center;
-  font-size: 1.125rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: #163300;
-  line-height: 1.25;
-}
-
-.book-demo-cal__weekdays {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 4px;
-  margin-bottom: 10px;
-  padding: 0 2px;
-}
-
-.book-demo-cal__weekday {
-  text-align: center;
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: rgba(22, 51, 0, 0.48);
-}
-
-.book-demo-cal__grid {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.book-demo-cal__row {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 6px;
-}
-
-.book-demo-cal__day {
-  position: relative;
-  aspect-ratio: 1;
-  max-height: 48px;
-  margin: 0;
-  padding: 0;
-  border: none;
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.55);
-  color: #163300;
-  font-family: "Nunito Sans", sans-serif;
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
-  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8) inset;
-  transition: background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease, transform 0.15s ease;
-}
-
-.book-demo-cal__day:hover:not(:disabled):not(.book-demo-cal__day--selected) {
-  background: rgba(159, 232, 112, 0.45);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(22, 51, 0, 0.08);
-}
-
-.book-demo-cal__day--outside {
-  opacity: 0.22;
-  pointer-events: none;
-  background: transparent;
-  box-shadow: none;
-}
-
-.book-demo-cal__day--muted {
-  opacity: 0.32;
-  cursor: not-allowed;
-  background: rgba(22, 51, 0, 0.05);
-}
-
-.book-demo-cal__day--today:not(.book-demo-cal__day--selected) {
-  box-shadow: 0 0 0 2px rgba(159, 232, 112, 0.85), 0 2px 8px rgba(22, 51, 0, 0.06);
-  background: rgba(255, 255, 255, 0.9);
-  font-weight: 700;
-}
-
-.book-demo-cal__day--selected {
-  background: linear-gradient(145deg, #b8f085 0%, #9fe870 45%, #8fd65f 100%);
-  color: #163300;
-  font-weight: 800;
-  box-shadow:
-    0 0 0 2px #163300,
-    0 6px 16px rgba(22, 51, 0, 0.14);
-}
-
-.book-demo-cal__day--selected:hover:not(:disabled) {
-  transform: translateY(-1px);
-}
-
-.book-demo-cal__day:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 3px #fff, 0 0 0 5px rgba(159, 232, 112, 0.9);
-}
-
-.book-demo-cal__day--selected:focus-visible {
-  box-shadow: 0 0 0 2px #163300, 0 0 0 5px rgba(159, 232, 112, 0.75);
-}
-
-@media (max-width: 720px) {
-  .book-demo-cal__day {
-    max-height: 42px;
-    font-size: 0.875rem;
-    border-radius: 12px;
-  }
-}
-
-.book-demo-modal__hint {
-  margin: 8px 0 0;
-  font-size: 13px;
-  line-height: 1.45;
-  color: rgba(22, 51, 0, 0.55);
-  font-family: "Nunito Sans", sans-serif;
-}
-
-/* Time picker: native-select–like trigger + dropdown list */
-.book-demo-modal__time-select {
-  position: relative;
-  margin-top: 10px;
-  width: 100%;
-}
-
-.book-demo-modal__time-select-trigger {
-  width: 100%;
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  min-height: 44px;
-  padding: 10px 14px 10px 12px;
-  border-radius: 12px;
-  border: 1px solid rgba(22, 51, 0, 0.2);
-  background: #fff;
-  font-size: 16px;
-  font-weight: 600;
-  font-family: "Nunito Sans", sans-serif;
-  color: #163300;
-  cursor: pointer;
-  text-align: left;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-}
-
-.book-demo-modal__time-select-trigger:hover {
-  border-color: rgba(22, 51, 0, 0.32);
-  background: #fffefb;
-}
-
-.book-demo-modal__time-select-trigger.is-open,
-.book-demo-modal__time-select-trigger:focus-visible {
-  outline: none;
-  border-color: #9fe870;
-  box-shadow: 0 0 0 2px rgba(159, 232, 112, 0.35);
-}
-
-.book-demo-modal__time-select-value {
-  flex: 1;
-  min-width: 0;
-}
-
-.book-demo-modal__time-select-chevron {
-  flex-shrink: 0;
-  width: 9px;
-  height: 9px;
-  margin-top: -3px;
-  border-right: 2px solid rgba(22, 51, 0, 0.5);
-  border-bottom: 2px solid rgba(22, 51, 0, 0.5);
-  transform: rotate(45deg);
-  transition: transform 0.22s ease, border-color 0.2s ease;
-}
-
-.book-demo-modal__time-select-trigger.is-open .book-demo-modal__time-select-chevron {
-  transform: rotate(225deg);
-  margin-top: 3px;
-}
-
-.book-demo-modal__time-select-list {
-  position: absolute;
-  z-index: 5;
-  left: 0;
-  right: 0;
-  top: calc(100% + 6px);
-  margin: 0;
-  padding: 6px;
-  list-style: none;
-  max-height: min(280px, 42vh);
-  max-height: min(280px, 42dvh);
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior: contain;
-  border-radius: 14px;
-  border: 1px solid rgba(22, 51, 0, 0.12);
-  background: linear-gradient(180deg, #fff 0%, #fffefb 100%);
-  box-shadow:
-    0 14px 44px rgba(22, 51, 0, 0.14),
-    0 0 0 1px rgba(255, 255, 255, 0.85) inset;
-}
-
-.book-demo-modal__time-select-item {
-  margin: 0;
-  padding: 0;
-}
-
-.book-demo-modal__time-select-option {
-  width: 100%;
-  display: block;
-  box-sizing: border-box;
-  margin: 0;
-  padding: 11px 12px;
-  border: none;
-  border-radius: 10px;
-  background: transparent;
-  font-size: 15px;
-  font-weight: 600;
-  font-family: "Nunito Sans", sans-serif;
-  color: #163300;
-  text-align: left;
-  cursor: pointer;
-  transition: background 0.15s ease, box-shadow 0.15s ease;
-}
-
-.book-demo-modal__time-select-option:hover {
-  background: rgba(159, 232, 112, 0.2);
-}
-
-.book-demo-modal__time-select-option.is-selected {
-  background: linear-gradient(145deg, rgba(184, 240, 133, 0.55) 0%, rgba(159, 232, 112, 0.65) 100%);
-  box-shadow: inset 0 0 0 1px rgba(22, 51, 0, 0.1);
-}
-
-.book-demo-modal__time-select-option:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(159, 232, 112, 0.55);
 }
 
 /*# sourceMappingURL=style.css.map */
