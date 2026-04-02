@@ -434,12 +434,26 @@ button.green-btn {
 
 .hero-block {
   overflow: hidden;
+  background: #b2e477;
 }
 
 .hero-slider {
   width: 100%;
 }
+
+.hero-slider.swiper,
+.hero-slider .swiper-wrapper {
+  height: 850px;
+}
+
+.hero-slider .swiper-slide {
+  height: 850px;
+  box-sizing: border-box;
+}
+
 .hero-slider .swiper-slide .slide-inner {
+  height: 100%;
+  min-height: 850px;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
@@ -488,7 +502,7 @@ button.green-btn {
   color: white;
   margin-bottom: 16px;
   font-family: "Unbounded", sans-serif;
-  max-width: 460px;
+  max-width: 520px;
   width: 100%;
 }
 @media (max-width: 767px) {
@@ -599,7 +613,7 @@ button.green-btn {
   margin-bottom: 150px;
   display: flex;
   flex-direction: column;
-  margin-bottom: 400px;
+  margin-bottom: 530px;
 }
 @media (max-width: 1200px) {
   .header .menu-wrap .main-menu {

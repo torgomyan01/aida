@@ -1,5 +1,6 @@
 'use client';
 
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import {
   createContext,
   useCallback,
@@ -28,6 +29,34 @@ export function useBookDemoModal(): BookDemoContextValue {
   return ctx;
 }
 
+const panelTransition = (reduce: boolean) =>
+  reduce
+    ? { duration: 0.15 }
+    : { type: 'spring' as const, damping: 28, stiffness: 360, mass: 0.82 };
+
+const backdropTransition = (reduce: boolean) =>
+  reduce ? { duration: 0.12 } : { duration: 0.28, ease: [0.22, 1, 0.36, 1] as const };
+
+const staggerContainer = (reduce: boolean) => ({
+  hidden: {},
+  show: {
+    transition: reduce
+      ? { staggerChildren: 0.02, delayChildren: 0 }
+      : { staggerChildren: 0.055, delayChildren: 0.08 },
+  },
+});
+
+const staggerItem = (reduce: boolean) => ({
+  hidden: { opacity: 0, y: reduce ? 0 : 12 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: reduce
+      ? { duration: 0.12 }
+      : { type: 'spring' as const, damping: 26, stiffness: 320 },
+  },
+});
+
 function BookDemoModalDialog({
   open,
   onClose,
@@ -38,11 +67,14 @@ function BookDemoModalDialog({
   const messages = useLandingMessages();
   const titleId = useId();
   const panelRef = useRef<HTMLDivElement>(null);
+  const reduceMotion = useReducedMotion();
 
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [sent, setSent] = useState(false);
+
+  const reduce = reduceMotion ?? false;
 
   useEffect(() => {
     if (!open) return;
@@ -92,102 +124,173 @@ function BookDemoModalDialog({
     setEmail('');
   };
 
-  if (!open) return null;
-
   return (
-    <div className="book-demo-modal__root" role="presentation">
-      <button
-        type="button"
-        className="book-demo-modal__backdrop"
-        aria-label={messages.bookDemo.closeAria}
-        onClick={onClose}
-      />
-      <div
-        ref={panelRef}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby={titleId}
-        className="book-demo-modal__panel"
-      >
-        <button
-          type="button"
-          className="book-demo-modal__close"
-          onClick={onClose}
-          aria-label={messages.bookDemo.closeAria}
+    <AnimatePresence>
+      {open ? (
+        <motion.div
+          key="book-demo-root"
+          className="book-demo-modal__root"
+          role="presentation"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={backdropTransition(reduce)}
         >
-          <span aria-hidden>×</span>
-        </button>
+          <button
+            type="button"
+            className="book-demo-modal__backdrop"
+            aria-label={messages.bookDemo.closeAria}
+            onClick={onClose}
+          />
+          <motion.div
+            ref={panelRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={titleId}
+            className="book-demo-modal__panel"
+            initial={
+              reduce
+                ? { opacity: 0 }
+                : { opacity: 0, y: 36, scale: 0.94 }
+            }
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={panelTransition(reduce)}
+          >
+            <motion.button
+              type="button"
+              className="book-demo-modal__close"
+              onClick={onClose}
+              aria-label={messages.bookDemo.closeAria}
+              initial={reduce ? false : { opacity: 0, scale: 0.65, rotate: -45 }}
+              animate={{ opacity: 1, scale: 1, rotate: 0 }}
+              transition={
+                reduce
+                  ? { duration: 0.1 }
+                  : { type: 'spring', damping: 22, stiffness: 400, delay: 0.12 }
+              }
+              whileTap={reduce ? undefined : { scale: 0.92 }}
+              whileHover={reduce ? undefined : { scale: 1.05 }}
+            >
+              <span aria-hidden>×</span>
+            </motion.button>
 
-        <div className="book-demo-modal__scroll">
-          {sent ? (
-            <div className="book-demo-modal__success">
-              <h2 id={titleId} className="book-demo-modal__title">
-                {messages.bookDemo.successTitle}
-              </h2>
-              <p className="book-demo-modal__text">{messages.bookDemo.successBody}</p>
-              <div className="book-demo-modal__actions">
-                <button type="button" className="green-btn" onClick={handleBookAnother}>
-                  {messages.bookDemo.bookAnother}
-                </button>
-                <button type="button" className="book-demo-modal__btn-secondary" onClick={onClose}>
-                  {messages.bookDemo.closeAria}
-                </button>
-              </div>
+            <div className="book-demo-modal__scroll">
+              <AnimatePresence mode="wait" initial={false}>
+                {sent ? (
+                  <motion.div
+                    key="success"
+                    className="book-demo-modal__success"
+                    initial={reduce ? { opacity: 0 } : { opacity: 0, y: 14 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={reduce ? { opacity: 0 } : { opacity: 0, y: -8 }}
+                    transition={panelTransition(reduce)}
+                  >
+                    <motion.div
+                      variants={staggerContainer(reduce)}
+                      initial="hidden"
+                      animate="show"
+                    >
+                      <motion.h2 id={titleId} className="book-demo-modal__title" variants={staggerItem(reduce)}>
+                        {messages.bookDemo.successTitle}
+                      </motion.h2>
+                      <motion.p className="book-demo-modal__text" variants={staggerItem(reduce)}>
+                        {messages.bookDemo.successBody}
+                      </motion.p>
+                      <motion.div className="book-demo-modal__actions" variants={staggerItem(reduce)}>
+                        <button type="button" className="green-btn" onClick={handleBookAnother}>
+                          {messages.bookDemo.bookAnother}
+                        </button>
+                        <button type="button" className="book-demo-modal__btn-secondary" onClick={onClose}>
+                          {messages.bookDemo.closeAria}
+                        </button>
+                      </motion.div>
+                    </motion.div>
+                  </motion.div>
+                ) : (
+                  <motion.form
+                    key="form"
+                    onSubmit={handleSubmit}
+                    className="book-demo-modal__form"
+                    noValidate
+                    initial={reduce ? { opacity: 0 } : { opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={reduce ? { opacity: 0 } : { opacity: 0, y: -6 }}
+                    transition={panelTransition(reduce)}
+                  >
+                    <motion.div
+                      variants={staggerContainer(reduce)}
+                      initial="hidden"
+                      animate="show"
+                    >
+                      <motion.h2
+                        id={titleId}
+                        className="book-demo-modal__title"
+                        variants={staggerItem(reduce)}
+                      >
+                        {messages.bookDemo.title}
+                      </motion.h2>
+
+                      <motion.label
+                        className="book-demo-modal__field book-demo-modal__field--first"
+                        variants={staggerItem(reduce)}
+                      >
+                        <span className="book-demo-modal__label">{messages.bookDemo.nameLabel}</span>
+                        <input
+                          type="text"
+                          required
+                          autoComplete="name"
+                          placeholder={messages.bookDemo.namePlaceholder}
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                          className="book-demo-modal__input"
+                        />
+                      </motion.label>
+
+                      <motion.label className="book-demo-modal__field" variants={staggerItem(reduce)}>
+                        <span className="book-demo-modal__label">{messages.bookDemo.phoneLabel}</span>
+                        <input
+                          type="tel"
+                          required
+                          autoComplete="tel"
+                          placeholder={messages.bookDemo.phonePlaceholder}
+                          value={phone}
+                          onChange={(e) => setPhone(e.target.value)}
+                          className="book-demo-modal__input"
+                        />
+                      </motion.label>
+
+                      <motion.label className="book-demo-modal__field" variants={staggerItem(reduce)}>
+                        <span className="book-demo-modal__label">{messages.bookDemo.emailLabel}</span>
+                        <input
+                          type="email"
+                          required
+                          autoComplete="email"
+                          inputMode="email"
+                          placeholder={messages.bookDemo.emailPlaceholder}
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          className="book-demo-modal__input"
+                        />
+                      </motion.label>
+
+                      <motion.div variants={staggerItem(reduce)}>
+                        <motion.button
+                          type="submit"
+                          className="green-btn book-demo-modal__submit"
+                          whileTap={reduce ? undefined : { scale: 0.98 }}
+                        >
+                          {messages.bookDemo.submit}
+                        </motion.button>
+                      </motion.div>
+                    </motion.div>
+                  </motion.form>
+                )}
+              </AnimatePresence>
             </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="book-demo-modal__form" noValidate>
-              <h2 id={titleId} className="book-demo-modal__title">
-                {messages.bookDemo.title}
-              </h2>
-
-              <label className="book-demo-modal__field book-demo-modal__field--first">
-                <span className="book-demo-modal__label">{messages.bookDemo.nameLabel}</span>
-                <input
-                  type="text"
-                  required
-                  autoComplete="name"
-                  placeholder={messages.bookDemo.namePlaceholder}
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="book-demo-modal__input"
-                />
-              </label>
-
-              <label className="book-demo-modal__field">
-                <span className="book-demo-modal__label">{messages.bookDemo.phoneLabel}</span>
-                <input
-                  type="tel"
-                  required
-                  autoComplete="tel"
-                  placeholder={messages.bookDemo.phonePlaceholder}
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  className="book-demo-modal__input"
-                />
-              </label>
-
-              <label className="book-demo-modal__field">
-                <span className="book-demo-modal__label">{messages.bookDemo.emailLabel}</span>
-                <input
-                  type="email"
-                  required
-                  autoComplete="email"
-                  inputMode="email"
-                  placeholder={messages.bookDemo.emailPlaceholder}
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="book-demo-modal__input"
-                />
-              </label>
-
-              <button type="submit" className="green-btn book-demo-modal__submit">
-                {messages.bookDemo.submit}
-              </button>
-            </form>
-          )}
-        </div>
-      </div>
-    </div>
+          </motion.div>
+        </motion.div>
+      ) : null}
+    </AnimatePresence>
   );
 }
 

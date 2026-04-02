@@ -34,9 +34,8 @@ export type LandingMessages = {
   hero: {
     line1: string;
     line2: string;
-    subtitle: string;
     cta: string;
-    slides: { title: string }[];
+    slides: { title: string; text: string }[];
   };
   steps: {
     sectionTitle: string;
@@ -139,10 +138,24 @@ export const landingMessages: Record<LandingLocale, LandingMessages> = {
     hero: {
       line1: 'Tools',
       line2: 'to increase',
-      subtitle:
-        'We help banks, telecom and government to improve their service — turn every conversation into success',
       cta: 'Book Demo',
-      slides: [{ title: 'Sales' }, { title: 'Sales 2' }, { title: 'Sales 3' }],
+      slides: [
+        {
+          title: 'Sales',
+          text:
+            'We help banks, telecom and government to improve their service — turn every conversation into success',
+        },
+        {
+          title: 'AI to upgrade Skills',
+          text:
+            'Empower your team with hints — help agents navigate complex dialogues with confidence.',
+        },
+        {
+          title: 'Insights to control Quality',
+          text:
+            "Get full visibility into your team's dialogues — make data-driven decisions to train your staff effectively.",
+        },
+      ],
     },
     steps: {
       sectionTitle: '4 Steps to Success',
@@ -347,10 +360,24 @@ export const landingMessages: Record<LandingLocale, LandingMessages> = {
     hero: {
       line1: 'Инструменты',
       line2: 'для роста',
-      subtitle:
-        'Помогаем банкам, телеком‑операторам и госсектору улучшать сервис — превращаем каждый диалог в результат',
       cta: 'Записаться на демо',
-      slides: [{ title: 'Продажи' }, { title: 'Продажи 2' }, { title: 'Продажи 3' }],
+      slides: [
+        {
+          title: 'Продажи',
+          text:
+            'Помогаем банкам, телеком‑операторам и госсектору улучшать сервис — превращаем каждый диалог в результат',
+        },
+        {
+          title: 'ИИ для развития навыков',
+          text:
+            'Дайте команде подсказки — помогите агентам уверенно вести сложные диалоги.',
+        },
+        {
+          title: 'Инсайты для контроля качества',
+          text:
+            'Полная видимость диалогов команды — принимайте решения на основе данных и эффективно обучайте сотрудников.',
+        },
+      ],
     },
     steps: {
       sectionTitle: '4 шага к успеху',
@@ -555,10 +582,24 @@ export const landingMessages: Record<LandingLocale, LandingMessages> = {
     hero: {
       line1: 'Savdoni',
       line2: 'oshirish uchun',
-      subtitle:
-        'Banklar, telekom va davlat tashkilotlariga xizmatni yaxshilashda yordam beramiz — har bir suhbatni muvaffaqiyatga aylantiramiz',
       cta: 'Demoga yozilish',
-      slides: [{ title: 'Sotuv' }, { title: 'Sotuv 2' }, { title: 'Sotuv 3' }],
+      slides: [
+        {
+          title: 'Sotuv',
+          text:
+            'Banklar, telekom va davlat tashkilotlariga xizmatni yaxshilashda yordam beramiz — har bir suhbatni muvaffaqiyatga aylantiramiz',
+        },
+        {
+          title: 'Ko‘nikmalarni oshirish uchun AI',
+          text:
+            'Jamoangizni maslahatlar bilan kuchaytiring — agentlarga murakkab suhbatlarda ishonch bilan yo‘l ko‘rsating.',
+        },
+        {
+          title: 'Sifatni nazorat qilish uchun tushunchalar',
+          text:
+            'Jamoangiz suhbatlariga to‘liq ko‘rinish — ma’lumotga asoslangan qarorlar qabul qiling va xodimlarni samarali o‘qing.',
+        },
+      ],
     },
     steps: {
       sectionTitle: 'Muvaffaqiyatga 4 qadam',

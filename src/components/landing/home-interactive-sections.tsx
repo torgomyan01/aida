@@ -45,6 +45,7 @@ function HomeHeroSection() {
     () =>
       messages.hero.slides.map((slide, i) => ({
         title: slide.title,
+        text: slide.text,
         image: heroSlideImages[i] ?? heroSlideImages[0],
       })),
     [messages.hero.slides]
@@ -87,7 +88,7 @@ function HomeHeroSection() {
         loop={true}
         speed={750}
         slidesPerView={1}
-        spaceBetween={20}
+        spaceBetween={0}
         grabCursor={true}
         simulateTouch={true}
         touchRatio={1.2}
@@ -132,7 +133,7 @@ function HomeHeroSection() {
                     {messages.hero.line1} <br /> {messages.hero.line2}{' '}
                     <span className="green-text">{slide.title}</span>
                   </h2>
-                  <p>{messages.hero.subtitle}</p>
+                  <p>{slide.text}</p>
                   <button type="button" className="green-btn" onClick={openBookDemo}>
                     {messages.hero.cta}
                   </button>
