@@ -126,7 +126,7 @@ export const landingMessages: Record<LandingLocale, LandingMessages> = {
       nameLabel: 'Your name',
       namePlaceholder: 'Full name',
       phoneLabel: 'Phone',
-      phonePlaceholder: '+1 …',
+      phonePlaceholder: '+998 …',
       emailLabel: 'Email',
       emailPlaceholder: 'you@company.com',
       submit: 'Send request',
@@ -141,17 +141,17 @@ export const landingMessages: Record<LandingLocale, LandingMessages> = {
       cta: 'Book Demo',
       slides: [
         {
-          title: 'Sales',
+          title: 'Tools to increase Sales',
           text:
             'We help banks, telecom and government to improve their service — turn every conversation into success',
         },
         {
-          title: 'AI to upgrade Skills',
+          title: 'Tools to increase AI to upgrade Skills',
           text:
             'Empower your team with hints — help agents navigate complex dialogues with confidence.',
         },
         {
-          title: 'Insights to control Quality',
+          title: 'Tools to increase Insights to control Quality',
           text:
             "Get full visibility into your team's dialogues — make data-driven decisions to train your staff effectively.",
         },
@@ -251,15 +251,15 @@ export const landingMessages: Record<LandingLocale, LandingMessages> = {
         [
           {
             title: '01. Sales Manager Dashboard',
-            text: 'Track team performance, analyze calls, and identify growth spots',
+            text: 'Personal Performance Navigator. Eliminating subjectivity. Sales reps identify script gaps and stress-points before their managers do.',
           },
           {
             title: '02. C-level Dashboard',
-            text: 'Track team performance, analyze calls, and identify growth spots',
+            text: 'Systemic Issue Detector. Automated analysis of conversations topics and sentiment. Pinpoint exactly where the business is losing money and customer loyalty.',
           },
           {
             title: '03. CX Dashboard',
-            text: 'Track team performance, analyze calls, and identify growth spots',
+            text: 'Reputation Control Center. A global view of brand health. Monitor Net Promoter Score (NPS) and market language segmentation in one click.',
           },
         ],
         dashboardImages
@@ -348,7 +348,7 @@ export const landingMessages: Record<LandingLocale, LandingMessages> = {
       nameLabel: 'Ваше имя',
       namePlaceholder: 'Как к вам обращаться',
       phoneLabel: 'Телефон',
-      phonePlaceholder: '+7 …',
+      phonePlaceholder: '+998 …',
       emailLabel: 'Email',
       emailPlaceholder: 'you@company.com',
       submit: 'Отправить заявку',
@@ -363,19 +363,19 @@ export const landingMessages: Record<LandingLocale, LandingMessages> = {
       cta: 'Записаться на демо',
       slides: [
         {
-          title: 'Продажи',
+          title: 'Инструменты для роста продаж',
           text:
-            'Помогаем банкам, телеком‑операторам и госсектору улучшать сервис — превращаем каждый диалог в результат',
+            'Мы помогаем банкам, телеком-операторам и госорганам улучшать сервис — превращая каждый диалог в успех.',
         },
         {
-          title: 'ИИ для развития навыков',
+          title: 'ИИ для прокачки навыков',
           text:
-            'Дайте команде подсказки — помогите агентам уверенно вести сложные диалоги.',
+            'Дайте команде суфлер: помогайте операторам уверенно вести сложные диалоги с помощью подсказок в реальном времени.',
         },
         {
-          title: 'Инсайты для контроля качества',
+          title: 'Аналитика для контроля качества',
           text:
-            'Полная видимость диалогов команды — принимайте решения на основе данных и эффективно обучайте сотрудников.',
+            'Получите полную прозрачность звонков: принимайте решения на основе данных для эффективного обучения сотрудников.',
         },
       ],
     },
@@ -473,15 +473,15 @@ export const landingMessages: Record<LandingLocale, LandingMessages> = {
         [
           {
             title: '01. Дашборд sales‑менеджера',
-            text: 'Отслеживайте KPI команды, анализируйте звонки и находите точки роста',
+            text: 'Навигатор личной эффективности. Исключите человеческий фактор. Менеджер видит свои ошибки в скриптах и стресс-точки раньше, чем их заметит РОП.',
           },
           {
             title: '02. Дашборд для C‑level',
-            text: 'Отслеживайте KPI команды, анализируйте звонки и находите точки роста',
+            text: 'Детектор системных проблем. Автоматический анализ тем обращений и уровня негатива. Находим, где бизнес теряет деньги и лояльность клиентов.',
           },
           {
             title: '03. CX‑дашборд',
-            text: 'Отслеживайте KPI команды, анализируйте звонки и находите точки роста',
+            text: 'Пульт управления репутацией. Глобальный взгляд на здоровье бренда. Контроль лояльности (NPS) и языковая сегментация рынка в один клик.',
           },
         ],
         dashboardImages
@@ -580,24 +580,24 @@ export const landingMessages: Record<LandingLocale, LandingMessages> = {
       bookAnother: 'Yana so‘rov yuborish',
     },
     hero: {
-      line1: 'Savdoni',
-      line2: 'oshirish uchun',
+      line1: 'Sotuvlarni',
+      line2: 'oshirish vositalari',
       cta: 'Demoga yozilish',
       slides: [
         {
-          title: 'Sotuv',
+          title: 'Sotuvlarni oshirish vositalari',
           text:
-            'Banklar, telekom va davlat tashkilotlariga xizmatni yaxshilashda yordam beramiz — har bir suhbatni muvaffaqiyatga aylantiramiz',
+            'Biz banklar, telekom va davlat tashkilotlariga xizmat ko‘rsatish sifatini yaxshilashda yordam beramiz — har bir muloqotni muvaffaqiyatga aylantiring.',
         },
         {
           title: 'Ko‘nikmalarni oshirish uchun AI',
           text:
-            'Jamoangizni maslahatlar bilan kuchaytiring — agentlarga murakkab suhbatlarda ishonch bilan yo‘l ko‘rsating.',
+            'Jamoangizga yordamchi bering — operatorlarga murakkab muloqotlarni ishonch bilan olib borishda yordam bering.',
         },
         {
-          title: 'Sifatni nazorat qilish uchun tushunchalar',
+          title: 'Sifat nazorati uchun tahlillar',
           text:
-            'Jamoangiz suhbatlariga to‘liq ko‘rinish — ma’lumotga asoslangan qarorlar qabul qiling va xodimlarni samarali o‘qing.',
+            'Muloqotlarning to‘liq shaffofligiga erishing — xodimlarni samarali o‘qitish uchun ma’lumotlarga asoslangan qarorlar qabul qiling.',
         },
       ],
     },
@@ -695,15 +695,15 @@ export const landingMessages: Record<LandingLocale, LandingMessages> = {
         [
           {
             title: '01. Sales menejer dashboard',
-            text: 'Jamoa ko‘rsatkichlarini kuzating, qo‘ng‘iroqlarni tahlil qiling va o‘sish nuqtalarini toping',
+            text: "Shaxsiy samaradorlik navigatori. Inson omilini chetlashtiramiz. Menejer skriptlardagi xatolar va stress nuqtalarini rahbaridan oldinroq ko'radi.",
           },
           {
             title: '02. C-level dashboard',
-            text: 'Jamoa ko‘rsatkichlarini kuzating, qo‘ng‘iroqlarni tahlil qiling va o‘sish nuqtalarini toping',
+            text: "Tizimli muammolar detektori. Murojaat mavzulari va negativ darajasini avtomatik tahlil qilish. Biznes qayerda pul va mijozlar ishonchini yo'qotayotganini aniqlaymiz.",
           },
           {
             title: '03. CX dashboard',
-            text: 'Jamoa ko‘rsatkichlarini kuzating, qo‘ng‘iroqlarni tahlil qiling va o‘sish nuqtalarini toping',
+            text: " Obro'-etibor boshqaruv paneli. Brend holatiga global qarash. Bir tugma orqali NPS sodiqlik indeksi va bozorning til segmentatsiyasini nazorat qiling.",
           },
         ],
         dashboardImages

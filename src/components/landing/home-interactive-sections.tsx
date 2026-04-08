@@ -13,10 +13,10 @@ import { useLocale } from 'next-intl';
 import { useBookDemoModal } from '@/components/landing/book-demo-modal';
 import { useLandingMessages } from '@/i18n/landing/hooks';
 
-const heroSlideImages = [
-  '/landing/img/heru-slider-img1.jpg',
-  '/landing/img/heru-slider-img2.jpg',
-  '/landing/img/heru-slider-img3.jpg',
+const heroSlideVideos = [
+  '/video/video-1.mp4',
+  '/video/video-2.mp4',
+  '/video/video-3.mp4',
 ];
 
 const stepImages = [
@@ -46,7 +46,7 @@ function HomeHeroSection() {
       messages.hero.slides.map((slide, i) => ({
         title: slide.title,
         text: slide.text,
-        image: heroSlideImages[i] ?? heroSlideImages[0],
+        video: heroSlideVideos[i] ?? heroSlideVideos[0],
       })),
     [messages.hero.slides]
   );
@@ -56,6 +56,24 @@ function HomeHeroSection() {
   const swiperRef = useRef<SwiperType | null>(null);
   const fadeOutTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const fadeInTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const syncHeroVideoPlayback = (swiper: SwiperType) => {
+    const videos = swiper.el.querySelectorAll<HTMLVideoElement>('.slide-bg-video');
+    const activeSlide = swiper.el.querySelector<HTMLElement>('.swiper-slide-active');
+    const activeVideo = activeSlide?.querySelector<HTMLVideoElement>('.slide-bg-video') ?? null;
+
+    videos.forEach((video) => {
+      if (video === activeVideo) return;
+      video.pause();
+    });
+
+    if (activeVideo) {
+      const playPromise = activeVideo.play();
+      if (playPromise && typeof playPromise.catch === 'function') {
+        playPromise.catch(() => {});
+      }
+    }
+  };
 
   const clearTimers = () => {
     if (fadeOutTimerRef.current) {
@@ -90,8 +108,10 @@ function HomeHeroSection() {
         slidesPerView={1}
         spaceBetween={0}
         grabCursor={true}
+        allowTouchMove={true}
         simulateTouch={true}
         touchRatio={1.2}
+        threshold={5}
         touchAngle={45}
         autoplay={{
           delay: BANNER_DELAY_MS,
@@ -101,6 +121,7 @@ function HomeHeroSection() {
           swiperRef.current = swiper;
           setActiveSlideIndex(swiper.realIndex);
           setContentVisible(true);
+          syncHeroVideoPlayback(swiper);
           scheduleFadeOut();
         }}
         onSlideChangeTransitionStart={() => {
@@ -112,26 +133,37 @@ function HomeHeroSection() {
           fadeInTimerRef.current = setTimeout(() => {
             setContentVisible(true);
           }, CONTENT_FADE_OFFSET_MS);
+          syncHeroVideoPlayback(swiper);
           scheduleFadeOut();
         }}
       >
         {heroSlides.map((slide, index) => {
           const isVisible = contentVisible && activeSlideIndex === index;
+          const titleWords = slide.title.trim().split(/\s+/);
+          const highlightedWord = titleWords.pop() ?? '';
+          const titlePrefix = titleWords.join(' ');
           return (
             <SwiperSlide key={slide.title}>
-              <div className="slide-inner" style={{ backgroundImage: `url(${slide.image})` }}>
+              <div className="slide-inner">
+                <video
+                  className="slide-bg-video"
+                  src={slide.video}
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                />
                 <div
                   className="slide-info"
                   style={{
                     opacity: isVisible ? 1 : 0,
                     transform: isVisible ? 'translateY(0)' : 'translateY(8px)',
                     transition: 'opacity 0.45s ease, transform 0.45s ease',
-                    pointerEvents: isVisible ? 'auto' : 'none',
                   }}
                 >
                   <h2>
-                    {messages.hero.line1} <br /> {messages.hero.line2}{' '}
-                    <span className="green-text">{slide.title}</span>
+                    {titlePrefix ? `${titlePrefix} ` : ''}
+                    <span className="green-text">{highlightedWord || slide.title}</span>
                   </h2>
                   <p>{slide.text}</p>
                   <button type="button" className="green-btn" onClick={openBookDemo}>
@@ -321,7 +353,7 @@ function HomeStepsSection() {
 
   return (
     <section className="steps-block">
-      <div className="wrapper">
+      <div className="wrapper w-full">
         <motion.h2
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}

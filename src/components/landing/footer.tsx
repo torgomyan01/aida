@@ -16,7 +16,7 @@ export function LandingFooter({ activePage }: LandingFooterProps) {
 
   return (
     <footer className="footer">
-      <div className="wrapper">
+      <div className="wrapper px-[150px]!">
         <ul className="footer-menu">
           <li className={clsx(activePage === 'home' && 'active')}>
             <Link href="/">{messages.header.nav.home}</Link>
