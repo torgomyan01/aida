@@ -756,7 +756,7 @@ export const landingMessages: Record<LandingLocale, LandingMessages> = {
         {
           name: 'Aleksandr Kornilov, CEO',
           bio: 'Tadbirkor va strateg. 13 yil e‑commerce’da; mahsulotlarni o‘sirish va startaplarni ishga tushirish bo‘yicha mutaxassis.',
-          image: '/landing/img/about-us-img1.jpg',
+          image: '/landing/img/alex.jpg',
           top: false,
         },
         {

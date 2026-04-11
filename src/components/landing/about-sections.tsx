@@ -48,7 +48,7 @@ export function LandingAboutSections() {
             </motion.h1>
             <motion.div className="contact-info" variants={itemVariants}>
               <span>{messages.about.phoneLabel}</span>
-              <a href="tel:+998999999999">+998 99 999 99 99</a>
+              <a href="tel:+998 90 099 91 09">+998 90 099 91 09</a>
             </motion.div>
             <motion.div className="contact-info" variants={itemVariants}>
               <span>{messages.about.emailLabel} </span>

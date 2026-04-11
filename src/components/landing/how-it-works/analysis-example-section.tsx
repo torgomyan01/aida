@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo } from 'react';
 import { AnalysisDemoPlayer, type DemoSegment } from './analysis-demo-player';
 import { motion } from 'framer-motion';
 
@@ -16,20 +16,6 @@ export function AnalysisExampleSection() {
     () => messages.analysis.segments as DemoSegment[],
     [messages.analysis.segments]
   );
-
-  const [activeLine, setActiveLine] = useState<number | null>(null);
-  const lineRefs = useRef<(HTMLParagraphElement | null)[]>([]);
-  const onActiveSegmentChange = useCallback((index: number | null) => {
-    setActiveLine(index);
-  }, []);
-
-  useEffect(() => {
-    if (activeLine == null) return;
-    const el = lineRefs.current[activeLine];
-    if (!el) return;
-    const reduce = typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-    el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'nearest' });
-  }, [activeLine]);
 
   return (
     <section className="analysis-example-block">
@@ -47,28 +33,20 @@ export function AnalysisExampleSection() {
           title={messages.analysis.demoTitle}
           eyebrow={messages.analysis.demoEyebrow}
           hint={messages.analysis.demoHint}
-          onActiveSegmentChange={onActiveSegmentChange}
         />
-        <div className="text-info">
+        {/* <div className="text-info">
           <div className="texts">
             {demoSegments.map((seg, i) => (
               <p
                 key={i}
-                ref={(el) => {
-                  lineRefs.current[i] = el;
-                }}
-                className={
-                  activeLine === i
-                    ? 'analysis-example-transcript__line is-active'
-                    : 'analysis-example-transcript__line'
-                }
+                className="analysis-example-transcript__line"
                 data-speaker={seg.speaker}
               >
                 {seg.text}
               </p>
             ))}
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   );
