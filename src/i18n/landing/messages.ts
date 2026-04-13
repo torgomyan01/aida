@@ -1,6 +1,6 @@
 /**
  * Landing page copy for EN / RU / UZ.
- * Arrays (steps, dashboards, experts, demo segments) are duplicated per locale for TTS/display.
+ * Arrays (steps, dashboards, experts, demo metadata) are duplicated per locale.
  */
 
 export type LandingLocale = 'en' | 'ru' | 'uz';
@@ -219,30 +219,8 @@ export const landingMessages: Record<LandingLocale, LandingMessages> = {
       sectionTitle: 'Listen to a call analysis example',
       demoTitle: 'Demo recording of a customer conversation',
       demoEyebrow: 'Sample playback',
-      demoHint:
-        'Browser text-to-speech (English). Speaker colors follow the transcript; voices depend on your system.',
-      segments: [
-        {
-          speaker: 0,
-          text: 'In the ancient land of Eldoria, where skies shimmered and forests whispered secrets to the wind, lived a dragon named Zephyros.',
-        },
-        {
-          speaker: 1,
-          text: '[sarcastically] Not the "burn it all down" kind... [giggles] but he was gentle, wise, with eyes like old stars.',
-        },
-        {
-          speaker: 2,
-          text: '[whispers] Even the birds fell silent when he passed. In the ancient land of Eldoria, where skies shimmered and forests whispered secrets to the wind, lived a dragon named Zephyros.',
-        },
-        {
-          speaker: 1,
-          text: '[sarcastically] Not the "burn it all down" kind... [giggles] but he was gentle, wise, with eyes like old stars.',
-        },
-        {
-          speaker: 0,
-          text: '[whispers] Even the birds fell silent when he passed. In the ancient land of Eldoria, where skies shimmered and forests whispered secrets to the wind, lived a dragon named Zephyros. [sarcastically] Not the "burn it all down" kind... [giggles] but he was gentle, wise, with eyes like old stars. [whispers] Even the birds fell silent when he passed.',
-        },
-      ],
+      demoHint: 'Sample MP3 playback. Below is a diarized transcript excerpt (several dialogs).',
+      segments: [{ speaker: 0, text: 'Demo' }],
     },
     dashboards: {
       title: 'Dashboards for every role',
@@ -312,7 +290,7 @@ export const landingMessages: Record<LandingLocale, LandingMessages> = {
         {
           name: 'Alexander Kornilov, CEO',
           bio: 'Entrepreneur and strategist. 13 years in e‑commerce; expert in scaling products and launching successful startups.',
-          image: '/landing/img/about-us-img1.jpg',
+          image: '/landing/img/alex.jpg',
           top: false,
         },
         {
@@ -441,30 +419,8 @@ export const landingMessages: Record<LandingLocale, LandingMessages> = {
       sectionTitle: 'Пример анализа звонка',
       demoTitle: 'Демозапись разговора с клиентом',
       demoEyebrow: 'Демо воспроизведение',
-      demoHint:
-        'Синтез речи в браузере (русский). Цвета спикеров соответствуют тексту; голоса зависят от системы.',
-      segments: [
-        {
-          speaker: 0,
-          text: 'В древней стране Элдория, где небо мерцало, а леса шептали ветру тайны, жил дракон по имени Зефирос.',
-        },
-        {
-          speaker: 1,
-          text: '[иронично] Не из тех, кто «всё сжечь»... [смех] но он был добрым и мудрым, с глазами, как старые звёзды.',
-        },
-        {
-          speaker: 2,
-          text: '[шёпотом] Даже птицы замирали, когда он проходил. В древней стране Элдория, где небо мерцало, а леса шептали ветру тайны, жил дракон по имени Зефирос.',
-        },
-        {
-          speaker: 1,
-          text: '[иронично] Не из тех, кто «всё сжечь»... [смех] но он был добрым и мудрым, с глазами, как старые звёзды.',
-        },
-        {
-          speaker: 0,
-          text: '[шёпотом] Даже птицы замирали... [иронично] Не из тех, кто «всё сжечь»... [смех] но он был добрым и мудрым. [шёпотом] Даже птицы замирали, когда он проходил.',
-        },
-      ],
+      demoHint: 'Демо воспроизводится из MP3. Ниже — фрагмент транскрипта с разметкой по спикерам (несколько диалогов).',
+      segments: [{ speaker: 0, text: 'Демо' }],
     },
     dashboards: {
       title: 'Дашборды для каждой роли',
@@ -663,30 +619,8 @@ export const landingMessages: Record<LandingLocale, LandingMessages> = {
       sectionTitle: 'Qo‘ng‘iroq tahlili namunasini tinglang',
       demoTitle: 'Mijoz suhbati demo yozuvi',
       demoEyebrow: 'Namuna ijrosi',
-      demoHint:
-        'Brauzer matn-sintezi (o‘zbekcha). Spiker ranglari transkriptga mos; ovozlar tizimga bog‘liq.',
-      segments: [
-        {
-          speaker: 0,
-          text: 'Osmonlar titrab, o‘rmonlar shamolga sirlarni aytgan qadimiy Eldoriya yerida Zephyros nomli ajdar yashagan.',
-        },
-        {
-          speaker: 1,
-          text: '[ironik] “Hammasini yoqib yuboradigan” tip emas... [kulgi] u muloyim va dono edi, ko‘zlari eski yulduzlarga o‘xshardi.',
-        },
-        {
-          speaker: 2,
-          text: '[pichir] Hatto qushlar ham jim tortgan. Osmonlar titrab, o‘rmonlar shamolga sirlarni aytgan qadimiy Eldoriya yerida Zephyros nomli ajdar yashagan.',
-        },
-        {
-          speaker: 1,
-          text: '[ironik] “Hammasini yoqib yuboradigan” tip emas... [kulgi] u muloyim va dono edi, ko‘zlari eski yulduzlarga o‘xshardi.',
-        },
-        {
-          speaker: 0,
-          text: '[pichir] Hatto qushlar ham jim tortgan... [ironik] “Hammasini yoqib yuboradigan” emas... [kulgi] u muloyim va dono edi. [pichir] U o‘tganda hatto qushlar ham jim tortgan.',
-        },
-      ],
+      demoHint: 'Namuna MP3 orqali ijro etiladi. Pastda — bir nechta suhbat bo‘yicha transkript (spikerlar ajratilgan).',
+      segments: [{ speaker: 0, text: 'Demo' }],
     },
     dashboards: {
       title: 'Har bir rol uchun dashboardlar',

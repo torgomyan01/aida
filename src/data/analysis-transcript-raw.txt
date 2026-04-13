@@ -1,0 +1,253 @@
+Диалог 1
+клиент 1: Allo
+оператор: Allo, assalomu alaykum, sizga yana ***dan qo'ng'iroq vatuvdim.
+клиент 1: Aha
+оператор: Qaran, hozir man aniqlashtirdim, bu kecha mana narxini o'zgartirilgandan keyin, chunki aksiya tugadi-ku, narxni o'zgartirilayotganda bu xatolik bilan ketgan-da, narxni o'zi, shunaqa chunki aksiya paytidayam unaqa narx bo'lmagan. O'zi to'g'irlab qo'yishdi, keyin seriya rangidan yo'q, qora rangidan bor, lekin osha eng baribir eng arzon narxlar bizda, i bizda aksiya paytidayam mana olganlardan so'rasangiz bo'ladi, xohlasangiz man sizga skrinshot ham jo'nataman olganlaridan, 1 12 oyga 1 million 414 mingdan bo'ladi.
+клиент 1: 1 million 414 ming. 256 talik-da, to'g'rimi?
+оператор: Ha, 256. Xohlasangiz, sizda 9 oyga... xohlasangiz 18 oyga qilib berishimiz mumkin.
+клиент 1: Yo'q, 18 oyga qancha bo'ladi?
+оператор: 18 oyga qilamiz. 16 oy bo'larkan-da, xozir...
+оператор: 15 oy bor. 1 million 230 mingdan bo'ladi.
+оператор: 15 oyga oling.
+оператор: Arzonroq tushadi sizga.
+клиент 1: 15 oy qancha? 1 million...
+оператор: 1 million 230
+клиент 1: Tak, hozir ko'ramiz. 18 million... Nechi pul ko'taryapman-da? 12 oy... Aa, 512 lik qancha tusharkan?
+оператор: Xozir hisoblab beraman. U sal qimmatroq bo'ladi, lekin.
+клиент 1: Bilaman, 2 million farq qiladi, lekin aytingchi, man xozir...
+оператор: Sizga xozir ozgina chegirma qilib berishga harakat qilaman.
+оператор: Necha oyga hisoblab beray?
+клиент 1: 12 oyga.
+оператор: 12 oyga bo'lsa, 1 million 271 ming.
+клиент 1: 1 million 271 ming 12 oyga... Aha, to'g'ri, to'g'ri.
+клиент 1: Aa, naqt... naqtga olsa qancha? 13 million 300 mi?
+оператор: Ha.
+оператор: Qilib beraymi?
+клиент 1: Manga havola tashlang anavi... bepuldan to'lashga.
+оператор: A, man siz bilan kecha gaplashganman-ku?
+клиент 1: Ha, ha, ha, havola tashlang.
+оператор: Ha, man siz bilan gaplashdim, kecha siz qilmadingiz, man...
+клиент 1: Yo'q, undan keyin yana sovqotdimi, bir soatmi, ikki soatmi vaqt berib qoldi-da. Ey, borey dedim-da, keyin anavi oxiri charchab...
+оператор: Man sizga telefon qilsam, siz ko'tarmadingiz. Man bu yerda to'g'irlab qo'ydim.
+оператор: Havola tashlaymi?
+клиент 1: Tashlang, 500... ha, anavi 256 taligidan... 512 ligidanmi, ranglari faqat qorami faqat?
+оператор: Sizga shartnomada ham qora rangidi-yu.
+клиент 1: Yo'q, o'zi rang boshqa yo'qmi deyman.
+клиент 1: O'zgartirsa bo'ladimi?
+оператор: Qora bilan... hozir... faqat qora rangi bor-da manda. Jet Black bor-ku. Siz 512 taliga tashlagan edingiz-ku? O'shanga havola tashlaymi sizga?
+клиент 1: O'shani tashlab tashlasangiz ham bo'ladi, yoki 256 talik arzonroq ekan-u, shuni...
+оператор: Siz mana 256 lik tashlay qoling.
+клиент 1: Xozir. A, arzonroq ekan, senga.
+оператор: Kecha siz bilan bu yerda razrabotchik bilan to'g'irladik, go'yoki, siz ko'tarmadingiz.
+клиент 1: Boshing... boshing og'rib ketadi-da, rosa...
+оператор: Ha, hozir, bir daqiqa.
+клиент 1: Magazindan borib, mana *** bor o'zimizda, o'shandan borib olavursam bo'lovrmikin?
+оператор: Yo'q, man sizga jo'nataman.
+оператор: Pochtadan jo'nataman, uyingizgacha.
+оператор: Agar to'lov o'tsa, uyingizgacha jo'nataman.
+клиент 1: Bo'lmasa... ishxonamgacha jo'natsangiz ham bo'ladi.
+оператор: Bo'ldi, bo'ldi. Shahrizabzdamisiz?
+клиент 1: Yo'q... Viloyatga pochta orqali ketadi, yoki bo'lmasa unaqa pochtalar chiqib ketgan-ku, ekspress pochta, BTSlar, uzumlar, o'shalardan jo'natsangiz ham olavuraman borib.
+оператор: Bizlar unaqa bilan ishlaymiz, *** bilan ishlaymiz.
+клиент 1: Uzpochta bilan?
+клиент 1: *** bizlarga borarmikin?
+оператор: Bor, jo'natamiz.
+оператор: Bepul dostavka.
+клиент 1: Mm... hozir...
+оператор: Unda hozir man sizga tashlayman-da havolani, xo'p?
+клиент 1: Tashlab qo'ying, ko'rib...
+оператор: Mxm, xo'p.
+
+Диалог 2
+клиент 2: Allo
+оператор: Allo, assalomu alaykum, *** eshitaman.
+клиент 2: Assalomu alaykum, hurmatli... anaqani qiziqmoqchi edim, qarang, hozir pasportiz bilan kartangizni tashladingiz-da telegramga.
+оператор: Xo'p, xo'p.
+клиент 2: Limit tekshirishim uchun pasport bilan pasportti rasmi bilan o'sha kartani raqamini jo'natvorishim bo'ldimi?
+оператор: Ismingiz nima telegramda?
+клиент 2: Da, da, da.
+оператор: Pasport, plastik karta, telefon raqam, plastikka ulangan.
+клиент 2: Da, da, da.
+оператор: Devormadingiz hali?
+клиент 2: A, telefon nomerimi?
+оператор: Hm, plastikka ulangani.
+оператор: I plastik kartani muddati.
+оператор: O'shalarni ham jo'natvoring.
+клиент 2: PM orqali tekshiramizmi?
+оператор: Nima orqali?
+клиент 2: PM.
+оператор: A, tekshiring, bo'ldi.
+клиент 2: Hozir.
+оператор: Bo'ldi, telegramda aloqada bo'lib turolasizmi? telegramdan yozvoramiz.
+клиент 2: Xo'p, xo'p, xo'p, xo'p.
+оператор: Chunki qarang, sizga skoring qilinvotganda kod boradi-da, o'sha kodini darrov yuvorishingiz kerak bo'ladi.
+клиент 2: Sizgayam hozir...
+оператор: Yo'q, telegramdan qarab tursangiz, man jo'nataman. Aytaman.
+клиент 2: Xo'p.
+клиент 2: Shu formiysilami?
+оператор: Yo'q, bizlar tekshiramiz.
+оператор: Xohlasangiz, hozir aloqada tursangiz ham tekshiramiz.
+оператор: Aloqada qopturasizmi?
+клиент 2: Yo'q, telegramdan, telegramdan.
+оператор: Bo'ldi, bo'ldi. Hozir jo'natamiz.
+клиент 2: Xo'p.
+
+Диалог 3
+клиент 3: Алло, здравствуйте
+оператор: Добрый день еще раз. Да, звоню вам из супермаркета. Смотрите, я сейчас уточнила... есть в наличии этот регистратор.
+клиент 3: В смысле есть?
+оператор: Да, да, есть. Есть. Мы точно...
+клиент 3: Так, а по какой цене?
+оператор: Он так же получается... миллион там сколько он... миллион 52 тысячи.
+клиент 3: Миллион сколько?
+оператор: Миллион 52 тысячи.
+клиент 3: Еще раз повторите, девушка, а?
+оператор: 1 миллион 52 тысячи.
+клиент 3: Понятно. Так, а как мы... заказать?
+оператор: Вы в Ташкенте находитесь?
+оператор: А, всё, мы вам доставку можем сделать.
+клиент 3: Давайте.
+клиент 3: Так, скажите, пожалуйста, вопрос такой. Характеристики его, так сказать, совпадают с тем, что вот на сайте есть?
+оператор: А вам именно какие... какая нужна по характеристикам?
+клиент 3: Ну, это в виде регистратор зеркала, да?
+оператор: Да.
+клиент 3: Да, совершенно верно.
+оператор: Да. Вот.
+клиент 3: Так, ну хорошо. Давайте, примите заказ.
+оператор: Будете, да, брать? Это зеркало регистратор. С двумя... это зеркало с двумя камерами.
+клиент 3: Да.
+оператор: Всё, хорошо. Тогда я...
+клиент 3: Так, теперь такой вопрос. А там микро памяти у вас в продаже есть? То, что именно к этому регистратору.
+оператор: Я уточню.
+клиент 3: Хорошо? Перезвоните или как?
+оператор: Да, ну заказ принимайте мне, и заказ сейчас тогда на это приняла.
+клиент 3: Примите заказ.
+оператор: Хорошо, и уточню еще накопитель, да?
+клиент 3: Да, да. Флешку, правильно?
+оператор: Не понял.
+клиент 3: Уточните еще насчет флешки, правильно?
+оператор: Да.
+клиент 3: Перезвоните, да?
+оператор: Да, да.
+клиент 3: Хорошо, спасибо. Всего хорошего.
+
+Диалог 4
+клиент 4: Алло
+оператор: Алло, здравствуйте. Да, звоню вам с *** по поводу вашего заказа.
+клиент 4: Ага, мы вас слушаем.
+оператор: Да, прошу прощения, что так поздно. Мы сегодня можем, да, вам доставить?
+клиент 4: Да. А вы знаете куда, вы пока как определяете, по локации телефона моего, да? Или как вы адреса устанавливаете?
+оператор: Нет, нет, курьер... курьер вам позвонит, вы сможете локацию отправить ему?
+клиент 4: Э... как, кучер, э... доставщик, да?
+оператор: Да, да, да, доставщик.
+клиент 4: А... ну вообще-то, как локацию, я могу адрес сказать?
+оператор: Угу.
+клиент 4: ***
+оператор: Хорошо.
+клиент 4: ***
+оператор: Угу.
+клиент 4: А ориентир вам сказать? Как-то... может или вам не надо?
+оператор: Нет, курьеру, хорошо? Курьеру. Доставщику.
+клиент 4: А он... а как я узнаю его номер телефона?
+оператор: Он вам позвонит, скажет, что он курьер.
+клиент 4: Ага.
+оператор: Его зовут ***
+клиент 4: Э, простите, две пары наушников, белые, аирподсов, да? Вы не могли бы мне вот еще раз повторить, я от вас хочу услышать, а то вдруг вы что-то забыли или перепутали.
+оператор: Хорошо. Хорошо. Смотрите, беспроводные наушники Xiaomi Redmi Buds 5, в белом цвете. Две штуки.
+клиент 4: Угу. Значит 496, по-моему, да, я помню, я уже забыла посмотреть.
+оператор: 498.
+клиент 4: 498, да?
+оператор: Да, да, 498.
+клиент 4: А, я просто уже... посмотреть я уже забыла сейчас, поэтому... по рекламе. 498, расплата терминалом сразу.
+оператор: Терминалом, хорошо. Все, я передам, курьер с вами свяжется, хорошо?
+клиент 4: Ага. А... может я вам скажу ориентир какой, он... у нас тут ограда, э... *** райздрава. Это *** отделение Минздрава. Ему сказать?
+оператор: Да, да, да.
+клиент 4: Попросите, пожалуйста, чтобы он позвонил.
+оператор: Хорошо, сейчас попрошу. Спасибо.
+клиент 4: Спасибо.
+
+Диалог 5
+оператор: Allo.
+клиент 5: Allo.
+оператор: *** *** qo'ng'iroq qilyapmiz, zayavkangiz bo'yicha. Qarang, skladda bizda soat bo'yicha... soat bergansiz, to'g'rimi?
+клиент 5: Axa.
+оператор: Soatni bergan ekansiz zayavkaga. Bu soat skladimizda-da. Agar bugun ulgurmasak, krayniy srok dushanba kuni bo'ladi. Bo'ladimi?
+клиент 5: Yo'q, xo'p qaranggiz, man hozir adashib ikkita zayavka berib yuborganman. Bittasida adres ko'rsatilmagan, bittasida adres ko'rsatilgan. O'sha bittasini otmen qilib yuboringlar. Man o'zim otmen qilolmayapman-da.
+оператор: Bo'ldi, otmena qilamiz, axa, xo'p.
+клиент 5: Yo'q, hozir siz po-moyemu ochib turgan zayavkangiz bez adres ochib turibsiz-da, shuning uchun adres qayer, qayer deb ko'rsatgansiz. Man hozir ikkinchisida ko'rsatganman, *** metro deb.
+оператор: Axa, demak *** ofisga yetkazish kerak.
+клиент 5: Axa-axa, silarni o'zlaringni ofislaring bor-aka, to'g'rimi distribyutorlaring bor o'sha yerda.
+оператор: Mxm, bor, bor.
+клиент 5: O'shani ko'rsatib qo'yganman. Keyin nima, tushunmadim hozir, skladda, skladda ekan dedingizmi?
+оператор: Mxm, bu yerda hozir nalichiye yo'q-da soat, skladimizda bor. Uni zakaz qilamiz, kelganda, keyin o'sha Chilonzor ofisga jo'natamiz.
+клиент 5: U qachon keladi manga? Shanba, yakshanba ishlamaysizlarmi?
+оператор: Yo'q, shanba yakshanba sklad ishlamaydi. Biz bugun ulgurishga harakat qilamiz olishga. Agar bugun ulgurmasak...
+клиент 5: Chunki masofa yaqin-ku, agar bugun... prosto aytmoqchi bo'lganim... ha...
+оператор: Masofadamas, u dokumentatsiya bor-da skladdan olish uchun ozgina dokumentatsiya vaqt oladi. O'shanga. Misol uchun bizlar yetkazib beramiz agar biz... lyuboy tochkaga-da, prosto buni skladdan olishga ozgina vaqt oladi dokumentatsiya bo'yicha. O'shanga aytyapman-da, agar ulgursak bugun qilamiz, agar ulgurmasak, unda dushanba kuniga qolishi mumkin.
+клиент 5: Chunki men so'raganimning sababi, man ketib yuboraman-da, prosto ketaman-da ertaga, chiqib ketaman bu yerdan. Shunga aytayotgan edim, bugun iloji bo'lsa agar bugun harakat qilib beringlar deb.
+оператор: Harakat qilamiz, lekin va'da berolmayman-da, ulgurmasak...
+клиент 5: Keyin ololmay qolaman-da, nima bo'ladi keyin?
+оператор: Nega? Nega? Biz keyin jo'nataveramiz ***?
+клиент 5: Axa.
+оператор: Yo'q, jo'nataveramiz, bizda dostavka bepul-ku, undan oldin ham olgansiz bizda.
+клиент 5: A, bilaman, ha.
+оператор: Yo'q, prosto... Iloji boricha qilamiz-da bizlar uje.
+клиент 5: A, iloji bo'lsa agar harakat qiling, iltimos.
+оператор: Xo'p, nima qilamiz, unda rasmiylashtiramizmi?
+клиент 5: Axa, rasmiylashtirib, harakat qilaylikchi bugun olishga, iloji bo'lsa, mana bu juma kuni, hali bor-ku ey, hali vaqt bor-ku ey...
+оператор: Shu-shu-shu... Dokumentatsiya cho'zilib ketadi-da. Hammasini tashlab berdingizmi?
+клиент 5: Hamma pochti dokumentim bor silarda.
+оператор: Bo'ldi, bo'ldi. Unda hozir endi qarang, zayavkalar ko'p-da, o'shaning uchun siz ozgina kutib tursangiz, hammaga ketma-ketlikda javob beramiz. Demak, hozir rasmiylashtiramiz, keyin jo'natamiz telegramdan, necha oyligini, hammasini. O'shandan keyin, rasmiylashtirgandan keyin sizga shartnoma tashlaymiz. I harakat qilamiz bugun dostavka qilishga. Agar bugun bo'lmasa, dushanba... keyin sizga *** jo'natamiz, xo'p?
+клиент 5: Mayli, o'shanaqa dedim, telefonlashib, ayting-da jo'natishdan oldin.
+оператор: Xo'p, xo'p. Mxm, xo'p. Bo'ldi, xo'p. Aytaman sizga, xo'p.
+клиент 5: Xo'p.
+
+Диалог 6
+оператор: Assalomu alaykum, Bemarketda eshitaman.
+клиент 6: Assalomu alaykum.
+оператор: Salom aleykum.
+клиент 6: Qarang, man kecha ham murojaat qiluvdim, lekin qaytib telefon qilmadizla. Manga dostavka bor edi-da. ***** raqamiga telefon qilib dostavka bor dedizla. Chorshanba kunigacha boradi dedizla.
+оператор: Dostavka bor dedizmi bizga?
+клиент 6: Axa. Ha, manga dostavka kelyatuvdi-da.
+оператор: Nimani dostavka qiluvdiz?
+клиент 6: Anaqa... Alisa bor-ku, yandeks stansiya... shunaqa.
+оператор: Rasmiylashtirilganmidi?
+клиент 6: Telefon qilib o'zlariz aytdizla, mana shu chorshanba kunigacha sizlarga dostavka, sizga dostavka boradi deb adres so'radizla.
+оператор: telegramdan so'radik-a?
+клиент 6: Yo'q, yo'q, ana shu nomerdan telefon bo'ldi-da manga, so'radizla. Man adresni aytdim...
+оператор: Hozir telefon raqamizi aytib yuboring, man ko'rib beraman. Telefon raqamizi nechi?
+клиент 6: ***
+оператор: Axa
+клиент 6: ***
+оператор: Mxm
+клиент 6: ***
+оператор: Mxm. Ismingiz nima?
+клиент 6: ***
+оператор: *** aka deganga yuborilgan... Demak sizda rasmiylashtirilgan-da, chunki bu yerda hozir tekshirsam ALIF NASIYA orqali bo'lgan. Rassrochka bu yerda bo'lgan, muddatli to'lov. Xabaringgiz bormi?
+клиент 6: Yo'q, manga shuni podarka qilib jo'natyaptuvdilar-da, man *** aka deganini...
+оператор: Xo'p... A siz ovotumidiz? Siz o'sha *** akani o'zi bilan gaplashib ko'ring. Gaplashmadizmi?
+клиент 6: U kishi manga muddatli to'lov demadilar, man uni sotib olib sanga jo'natdim dedilar...
+оператор: Xo'p... A siz nima dediz?
+клиент 6: Xo'p, bitta kimdir telefon qildizla shu nomerdan, telefon bo'ldi.
+оператор: Xo'p.
+клиент 6: Adres ayting, sizga chorshanba kunigacha dostavka boradi. Nima dostavka desam, shunday umniy kolonka dedizla, umniy kolonka Alisa dedizla. Ha dedim, adres aytdim. Bir minut, shu *** aka. 
+оператор: Siz endi o'sha *** aka bilan bog'laning, xo'p? Chunki ular o'zlari... anaqa... olganlar. Ular bilan gaplashib ko'ring, xo'p?
+клиент 6: Uzlar, tushunmadim, nima qilganlar deysiz?
+оператор: Uzlari bilan gaplashasiz. Dostavka haqida o'zlari bilan gaplashasiz, xo'p?
+клиент 6: A, sizlar telefon qildizla-ku lekin manga.
+оператор: Tushunmadim.
+клиент 6: Sizlar telefon qildizla-ku manga deyman.
+оператор: A, sizga telefon bo'ldimi?
+клиент 6: Ha, sizlar telefon qildizla.
+оператор: Yo'q-yo'q, bu adashib qilingan bu yerda. Adashib qilingan, lekin o'zlari bilan gaplashasiz.
+клиент 6: Qarang, adashib qilinadi...
+оператор: Bu hozir sizga koll-sentrdan qilingan. Sizni, sizning nomingizda emas bu hozir. U bu kimning nomida, bilmayman hozir, u man siz bilan gaplashmaganman. Shuning uchun siz o'sha *** akam bilan o'zi bilan gaplashing, xo'p? Tanishlaringizmi?
+клиент 6: Yo'q, sizga hozir nimadir chiqayotganini ayting.
+оператор: Bu yerda hozir muddatli to'lov turibdi.
+клиент 6: Nima, nima ko'rsatyapti? Kolonka ko'rsatyaptimi?
+оператор: Mxm, kolonka turibdi. Siz buyurtma berganmidiz?
+клиент 6: Voy, man buyurtma bermaganman, manga podarka qilib jo'natyapsizlar...
+оператор: Bo'ldi, o'shaning uchun siz Jamshid aka bilan gaplashasiz o'zingiz. Chunki ularning nomlariga bo'lgan. Tushuntiroldim-a?
+клиент 6: Tushundim.
+оператор: Axa, xo'p, sog' bo'ling.
+клиент 6: Xo'p.

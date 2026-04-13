@@ -41,7 +41,8 @@ function buildFallbackBars(barCount: number): number[] {
 }
 
 type Props = {
-  segments: DemoSegment[];
+  /** Kept for API compatibility; audio demo does not render segment text. */
+  segments?: DemoSegment[];
   speechLocale?: LandingLocale;
   title?: string;
   eyebrow?: string;
@@ -49,7 +50,7 @@ type Props = {
 };
 
 export function AnalysisDemoPlayer({
-  segments,
+  segments: _segments = [],
   speechLocale: _speechLocale = 'en',
   title = 'Demo recording of a customer conversation',
   eyebrow = 'Sample playback',
@@ -321,6 +322,11 @@ export function AnalysisDemoPlayer({
         <div className="analysis-demo-player__wave-wrap">
           <div className="analysis-demo-player__wave">
             <div className="analysis-demo-player__track" aria-hidden />
+            <span
+              className="analysis-demo-player__playhead-line"
+              style={{ left: `${playheadPct}%` }}
+              aria-hidden
+            />
             <div className="analysis-demo-player__bars analysis-demo-player__bars--audio">
               {waveformBars.map((h, i) => {
                 const p = ((i + 0.5) / waveformBars.length) * 100;
@@ -335,7 +341,6 @@ export function AnalysisDemoPlayer({
                 );
               })}
             </div>
-            {/* <span className="analysis-demo-player__dot" style={{ left: `${playheadPct}%` }} aria-hidden /> */}
           </div>
           <div className="analysis-demo-player__progress" aria-label="Audio progress">
             <span className="analysis-demo-player__progress-track" aria-hidden />
@@ -360,22 +365,23 @@ export function AnalysisDemoPlayer({
             <div className="analysis-demo-player__extra-controls">
               <button
                 type="button"
-                className="analysis-demo-player__pill-btn"
+                className="analysis-demo-player__icon-btn"
                 onClick={handleRateToggle}
                 aria-label="Change playback speed"
               >
-                {playbackRate}x
+                <span className="analysis-demo-player__icon analysis-demo-player__icon--speed" aria-hidden />
+                <span className="analysis-demo-player__icon-btn-label">{playbackRate}x</span>
               </button>
               <button
                 type="button"
-                className="analysis-demo-player__pill-btn"
+                className={`analysis-demo-player__icon-btn${muted ? ' analysis-demo-player__icon-btn--muted' : ''}`}
                 onClick={handleMuteToggle}
                 aria-label={muted ? 'Unmute audio' : 'Mute audio'}
               >
-                {muted ? 'Unmute' : 'Mute'}
+                <span className="analysis-demo-player__icon analysis-demo-player__icon--volume" aria-hidden />
               </button>
               <label className="analysis-demo-player__volume" aria-label="Volume">
-                <span className="analysis-demo-player__volume-label">Vol</span>
+                <span className="analysis-demo-player__volume-icon" aria-hidden />
                 <input
                   type="range"
                   min={0}
