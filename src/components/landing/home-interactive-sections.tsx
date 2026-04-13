@@ -6,7 +6,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import type { Swiper as SwiperType } from 'swiper';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 
 import { useLocale } from 'next-intl';
 
@@ -30,9 +30,9 @@ const stepImages = [
 function getStepsPinScrollPx() {
   return 1200;
 }
-/** Pin wrapper height — tight to avoid empty green scroll after pin */
-function stepsPinContainerHeightVh(stepCount: number) {
-  return `1700px`;
+/** Pin wrapper height — tall scroll track for desktop pin only */
+function stepsPinContainerHeightPx() {
+  return '1700px';
 }
 
 const BANNER_DELAY_MS = 8000;
@@ -182,6 +182,7 @@ function HomeHeroSection() {
 function HomeStepsSection() {
   const messages = useLandingMessages();
   const locale = useLocale();
+  const reduceMotion = useReducedMotion();
   const steps = useMemo(
     () =>
       messages.steps.items.map((step, i) => ({
@@ -205,150 +206,155 @@ function HomeStepsSection() {
     const stackGap = 20;
     const frontY = (steps.length - 1) * stackGap;
     const phaseDuration = 1.15;
+    const cardShadow = '0 24px 50px rgba(5, 77, 40, 0.16)';
 
-    const ctx = gsap.context(() => {
-      const applyStackOrder = (activeIndex: number) => {
-        cards.forEach((card, i) => {
-          if (i === activeIndex) {
-            gsap.set(card, { zIndex: cards.length + 30 });
-            return;
-          }
+    const mm = gsap.matchMedia();
 
-          if (i > activeIndex) {
-            gsap.set(card, { zIndex: cards.length + 10 - (i - activeIndex) });
-            return;
-          }
+    mm.add('(min-width: 768px) and (prefers-reduced-motion: no-preference)', () => {
+      const ctx = gsap.context(() => {
+        let lastStackIndex = -1;
 
-          gsap.set(card, { zIndex: 5 - (activeIndex - i) });
+        const applyStackOrder = (activeIndex: number) => {
+          if (activeIndex === lastStackIndex) return;
+          lastStackIndex = activeIndex;
+          cards.forEach((card, i) => {
+            if (i === activeIndex) {
+              gsap.set(card, { zIndex: cards.length + 30 });
+              return;
+            }
+            if (i > activeIndex) {
+              gsap.set(card, { zIndex: cards.length + 10 - (i - activeIndex) });
+              return;
+            }
+            gsap.set(card, { zIndex: 5 - (activeIndex - i) });
+          });
+        };
+
+        cards.forEach((card, index) => {
+          const baseY = (steps.length - 1 - index) * stackGap;
+          gsap.set(card, {
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            y: baseY,
+            x: 0,
+            zIndex: steps.length - index,
+            opacity: Math.max(0.52, 1 - index * 0.12),
+            scale: 1 - index * 0.028,
+            rotateX: index === steps.length - 1 ? 0 : 5,
+            rotateY: index === steps.length - 1 ? 0 : -3,
+            rotateZ: 0,
+            transformPerspective: 1200,
+            boxShadow: cardShadow,
+            border: '1px solid rgba(255, 255, 255, 0.6)',
+            force3D: true,
+            transformOrigin: 'center top',
+          });
         });
-      };
+        applyStackOrder(0);
 
-      cards.forEach((card, index) => {
-        const baseY = (steps.length - 1 - index) * stackGap;
-        gsap.set(card, {
-          y: baseY,
-          x: 0,
-          zIndex: steps.length - index,
-          opacity: Math.max(0.5, 1 - index * 0.14),
-          scale: 1 - index * 0.03,
-          rotateX: index === steps.length - 1 ? 0 : 6,
-          rotateY: index === steps.length - 1 ? 0 : -4,
-          rotateZ: 0,
-          transformPerspective: 1400,
-          filter: `blur(${index * 0.55}px) saturate(${1 - index * 0.04})`,
-          boxShadow: '0 24px 50px rgba(5, 77, 40, 0.16)',
-          border: '1px solid rgba(255, 255, 255, 0.6)',
-          force3D: true,
-          willChange: 'transform, opacity',
-        });
-      });
-      applyStackOrder(0);
+        if (cards.length === 1) return;
 
-      if (cards.length === 1) return;
-      const startOffsetPx = window.innerWidth <= 767 ? 20 : 100;
-      const stepsPinScrollPx = getStepsPinScrollPx();
+        const startOffsetPx = 100;
+        const stepsPinScrollPx = getStepsPinScrollPx();
 
-      const timeline = gsap.timeline({
-        defaults: {
-          ease: 'power3.out',
-        },
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: `top top+=${startOffsetPx}`,
-          end: `+=${stepsPinScrollPx}`,
-          scrub: 0.45,
-          pin: pinRef.current,
-          pinSpacing: true,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-          onUpdate: (self) => {
-            const mapped = self.progress * (cards.length - 1);
-            const activeIndex = Math.max(0, Math.min(cards.length - 1, Math.floor(mapped + 0.35)));
-            applyStackOrder(activeIndex);
+        const timeline = gsap.timeline({
+          defaults: { ease: 'power3.out' },
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: `top top+=${startOffsetPx}`,
+            end: `+=${stepsPinScrollPx}`,
+            scrub: true,
+            pin: pinRef.current,
+            pinSpacing: true,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+            fastScrollEnd: true,
+            onUpdate: (self) => {
+              const mapped = self.progress * (cards.length - 1);
+              const activeIndex = Math.max(0, Math.min(cards.length - 1, Math.floor(mapped + 0.35)));
+              applyStackOrder(activeIndex);
+            },
           },
-        },
-      });
+        });
 
-      cards.forEach((card, index) => {
-        if (index === cards.length - 1) return;
+        cards.forEach((card, index) => {
+          if (index === cards.length - 1) return;
 
-        const nextCard = cards[index + 1];
-        const transitionStart = index * phaseDuration + 0.2;
-        timeline
-          .to(
-            card,
-            {
-              y: -250,
-              x: 70,
-              autoAlpha: 0,
-              scale: 0.8,
-              rotateX: -22,
-              rotateY: 24,
-              rotateZ: 7,
-              filter: 'blur(12px) saturate(0.86)',
-              boxShadow: '0 10px 20px rgba(5, 77, 40, 0.09)',
-              duration: 0.92,
-              ease: 'power3.in',
-            },
-            transitionStart
-          )
-          .fromTo(
-            nextCard,
-            {
-              y: frontY + 120,
-              x: -56,
-              autoAlpha: 0.35,
-              scale: 0.86,
-              rotateX: 12,
-              rotateY: -20,
-              rotateZ: -2,
-              filter: 'blur(9px) saturate(1.12)',
-              boxShadow: '0 28px 62px rgba(5, 77, 40, 0.18)',
-            },
-            {
-              y: frontY - 12,
-              x: 0,
-              autoAlpha: 1,
-              scale: 1.045,
-              rotateX: 0,
-              rotateY: 0,
-              rotateZ: 0,
-              filter: 'blur(0px) saturate(1)',
-              boxShadow: '0 34px 78px rgba(5, 77, 40, 0.24)',
-              duration: 0.72,
-              ease: 'power4.out',
-              immediateRender: false,
-            },
-            transitionStart
-          )
-          .to(
-            nextCard,
-            {
-              y: frontY + 2,
-              x: 0,
-              scale: 0.995,
-              rotateX: 1.2,
-              duration: 0.24,
-              ease: 'sine.inOut',
-            },
-            transitionStart + 0.72
-          )
-          .to(
-            nextCard,
-            {
-              y: frontY,
-              scale: 1,
-              rotateX: 0,
-              duration: 0.26,
-              ease: 'sine.out',
-              boxShadow: '0 24px 56px rgba(5, 77, 40, 0.2)',
-            },
-            transitionStart + 0.96
-          );
-      });
-    }, sectionRef);
+          const nextCard = cards[index + 1];
+          const transitionStart = index * phaseDuration + 0.2;
+          timeline
+            .to(
+              card,
+              {
+                y: -250,
+                x: 70,
+                autoAlpha: 0,
+                scale: 0.82,
+                rotateX: -18,
+                rotateY: 20,
+                rotateZ: 6,
+                duration: 0.92,
+                ease: 'power3.in',
+              },
+              transitionStart
+            )
+            .fromTo(
+              nextCard,
+              {
+                y: frontY + 120,
+                x: -52,
+                autoAlpha: 0.38,
+                scale: 0.88,
+                rotateX: 10,
+                rotateY: -16,
+                rotateZ: -2,
+              },
+              {
+                y: frontY - 12,
+                x: 0,
+                autoAlpha: 1,
+                scale: 1.04,
+                rotateX: 0,
+                rotateY: 0,
+                rotateZ: 0,
+                duration: 0.72,
+                ease: 'power4.out',
+                immediateRender: false,
+              },
+              transitionStart
+            )
+            .to(
+              nextCard,
+              {
+                y: frontY + 2,
+                x: 0,
+                scale: 0.995,
+                rotateX: 1,
+                duration: 0.24,
+                ease: 'sine.inOut',
+              },
+              transitionStart + 0.72
+            )
+            .to(
+              nextCard,
+              {
+                y: frontY,
+                scale: 1,
+                rotateX: 0,
+                duration: 0.26,
+                ease: 'sine.out',
+              },
+              transitionStart + 0.96
+            );
+        });
+      }, sectionRef);
 
-    return () => ctx.revert();
+      return () => ctx.revert();
+    });
+
+    return () => mm.revert();
   }, [locale, steps]);
 
   return (
@@ -357,14 +363,21 @@ function HomeStepsSection() {
         <motion.h2
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.7, ease: 'easeOut' }}
+          transition={{
+            duration: reduceMotion ? 0.2 : 0.55,
+            ease: reduceMotion ? 'linear' : 'easeOut',
+          }}
         >
           {messages.steps.sectionTitle}
         </motion.h2>
         <motion.p
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.15, ease: 'easeOut' }}
+          transition={{
+            duration: reduceMotion ? 0.2 : 0.45,
+            delay: reduceMotion ? 0 : 0.1,
+            ease: reduceMotion ? 'linear' : 'easeOut',
+          }}
         >
           {messages.steps.sectionSubtitle}
         </motion.p>
@@ -374,11 +387,15 @@ function HomeStepsSection() {
           className="steps-pin-container"
           style={{
             position: 'relative',
-            height: stepsPinContainerHeightVh(steps.length),
+            height: stepsPinContainerHeightPx(),
             minHeight: 440,
           }}
         >
-          <div ref={pinRef} style={{ position: 'relative', height: 520, perspective: 1200, overflow: 'visible' }}>
+          <div
+            ref={pinRef}
+            className="steps-pin-inner"
+            style={{ position: 'relative', height: 520, perspective: 1200, overflow: 'visible' }}
+          >
             <div className="steps" style={{ position: 'relative', height: '100%' }}>
               {steps.map((step, index) => (
                 <div
@@ -387,7 +404,6 @@ function HomeStepsSection() {
                     cardRefs.current[index] = el;
                   }}
                   className={`step ${step.className}`}
-                  style={{ position: 'absolute', top: 0, left: 0, right: 0, transformOrigin: 'center top' }}
                 >
                   <div className="texts">
                     <b>

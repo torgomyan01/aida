@@ -1,47 +1,24 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useLayoutEffect, useMemo, useRef, useSyncExternalStore } from 'react';
+import { useLayoutEffect, useMemo, useRef } from 'react';
 
 import { useLocale } from 'next-intl';
 
 import { useLandingMessages } from '@/i18n/landing/hooks';
 
-/** Total ScrollTrigger scrub distance for the dashboards pin (px) — matches steps section */
+/** Scroll distance while dashboards stack is pinned (px) — aligned with steps section */
 const DASHBOARDS_PIN_SCROLL_PX = 1200;
 
-/** `start` vertical offset (px): tighter on mobile, earlier pin on desktop */
-function dashboardsScrollStartOffsetPx(): number {
-  if (typeof window === 'undefined') return 200;
-  return window.matchMedia('(max-width: 767px)').matches ? 20 : 200;
-}
-
-const DASHBOARDS_PIN_SCROLL_HEIGHT_MOBILE_PX = 1200;
-
-function dashboardsPinScrollSectionHeight(itemCount: number, isMobile: boolean): string {
-  return `1600px`;
-}
-
-function useIsMobileDashboardsViewport() {
-  return useSyncExternalStore(
-    (onChange) => {
-      if (typeof window === 'undefined') return () => {};
-      const mq = window.matchMedia('(max-width: 767px)');
-      mq.addEventListener('change', onChange);
-      return () => mq.removeEventListener('change', onChange);
-    },
-    () => window.matchMedia('(max-width: 767px)').matches,
-    () => false
-  );
-}
+const DASHBOARDS_PIN_SECTION_HEIGHT_PX = '1600px';
 
 export function DashboardsSection() {
   const messages = useLandingMessages();
   const locale = useLocale();
+  const reduceMotion = useReducedMotion();
   const dashboardItems = useMemo(() => messages.dashboards.items, [messages.dashboards.items]);
-  const isMobile = useIsMobileDashboardsViewport();
   const sectionRef = useRef<HTMLElement | null>(null);
   const pinRef = useRef<HTMLDivElement | null>(null);
   const cardRefs = useRef<Array<HTMLDivElement | null>>([]);
@@ -55,154 +32,154 @@ export function DashboardsSection() {
 
     const stackGap = 20;
     const frontY = (cards.length - 1) * stackGap;
+    const phaseDuration = 1.15;
+    const cardShadow = '0 24px 50px rgba(5, 77, 40, 0.16)';
 
-    const ctx = gsap.context(() => {
-      const applyStackOrder = (activeIndex: number) => {
-        cards.forEach((card, i) => {
-          if (i === activeIndex) {
-            gsap.set(card, { zIndex: cards.length + 30 });
-            return;
-          }
+    const mm = gsap.matchMedia();
 
-          if (i > activeIndex) {
-            gsap.set(card, { zIndex: cards.length + 10 - (i - activeIndex) });
-            return;
-          }
+    mm.add('(min-width: 768px) and (prefers-reduced-motion: no-preference)', () => {
+      const ctx = gsap.context(() => {
+        let lastStackIndex = -1;
 
-          gsap.set(card, { zIndex: 5 - (activeIndex - i) });
+        const applyStackOrder = (activeIndex: number) => {
+          if (activeIndex === lastStackIndex) return;
+          lastStackIndex = activeIndex;
+          cards.forEach((card, i) => {
+            if (i === activeIndex) {
+              gsap.set(card, { zIndex: cards.length + 30 });
+              return;
+            }
+            if (i > activeIndex) {
+              gsap.set(card, { zIndex: cards.length + 10 - (i - activeIndex) });
+              return;
+            }
+            gsap.set(card, { zIndex: 5 - (activeIndex - i) });
+          });
+        };
+
+        cards.forEach((card, index) => {
+          const baseY = (cards.length - 1 - index) * stackGap;
+          gsap.set(card, {
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            y: baseY,
+            x: 0,
+            zIndex: cards.length - index,
+            opacity: Math.max(0.52, 1 - index * 0.12),
+            scale: 1 - index * 0.028,
+            rotateX: index === cards.length - 1 ? 0 : 5,
+            rotateY: index === cards.length - 1 ? 0 : -3,
+            rotateZ: 0,
+            transformPerspective: 1200,
+            boxShadow: cardShadow,
+            border: '1px solid rgba(255, 255, 255, 0.6)',
+            force3D: true,
+            transformOrigin: 'center top',
+          });
         });
-      };
+        applyStackOrder(0);
 
-      cards.forEach((card, index) => {
-        const baseY = (cards.length - 1 - index) * stackGap;
-        gsap.set(card, {
-          y: baseY,
-          x: 0,
-          zIndex: cards.length - index,
-          opacity: Math.max(0.5, 1 - index * 0.14),
-          scale: 1 - index * 0.03,
-          rotateX: index === cards.length - 1 ? 0 : 6,
-          rotateY: index === cards.length - 1 ? 0 : -4,
-          rotateZ: 0,
-          transformPerspective: 1400,
-          filter: `blur(${index * 0.55}px) saturate(${1 - index * 0.04})`,
-          boxShadow: '0 24px 50px rgba(5, 77, 40, 0.16)',
-          border: '1px solid rgba(255, 255, 255, 0.6)',
-          force3D: true,
-          willChange: 'transform, opacity',
-        });
-      });
-      applyStackOrder(0);
+        const startOffsetPx = 100;
 
-      const phaseDuration = 1.15;
-      const timeline = gsap.timeline({
-        defaults: { ease: 'power3.out' },
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: () => `top top-=-${dashboardsScrollStartOffsetPx()}`,
-          end: `+=${DASHBOARDS_PIN_SCROLL_PX}`,
-          scrub: 0.45,
-          pin: pinRef.current,
-          pinSpacing: true,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-          onUpdate: (self) => {
-            const mapped = self.progress * (cards.length - 1);
-            const activeIndex = Math.max(0, Math.min(cards.length - 1, Math.floor(mapped + 0.35)));
-            applyStackOrder(activeIndex);
+        const timeline = gsap.timeline({
+          defaults: { ease: 'power3.out' },
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: `top top+=${startOffsetPx}`,
+            end: `+=${DASHBOARDS_PIN_SCROLL_PX}`,
+            scrub: true,
+            pin: pinRef.current,
+            pinSpacing: true,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+            fastScrollEnd: true,
+            onUpdate: (self) => {
+              const mapped = self.progress * (cards.length - 1);
+              const activeIndex = Math.max(0, Math.min(cards.length - 1, Math.floor(mapped + 0.35)));
+              applyStackOrder(activeIndex);
+            },
           },
-        },
-      });
+        });
 
-      cards.forEach((card, index) => {
-        if (index === cards.length - 1) return;
+        cards.forEach((card, index) => {
+          if (index === cards.length - 1) return;
 
-        const nextCard = cards[index + 1];
-        const transitionStart = index * phaseDuration + 0.2;
-        timeline
-          .to(
-            card,
-            {
-              y: -250,
-              x: 70,
-              autoAlpha: 0,
-              scale: 0.8,
-              rotateX: -22,
-              rotateY: 24,
-              rotateZ: 7,
-              filter: 'blur(12px) saturate(0.86)',
-              boxShadow: '0 10px 20px rgba(5, 77, 40, 0.09)',
-              duration: 0.92,
-              ease: 'power3.in',
-            },
-            transitionStart
-          )
-          .fromTo(
-            nextCard,
-            {
-              y: frontY + 120,
-              x: -56,
-              autoAlpha: 0.35,
-              scale: 0.86,
-              rotateX: 12,
-              rotateY: -20,
-              rotateZ: -2,
-              filter: 'blur(9px) saturate(1.12)',
-              boxShadow: '0 28px 62px rgba(5, 77, 40, 0.18)',
-            },
-            {
-              y: frontY - 12,
-              x: 0,
-              autoAlpha: 1,
-              scale: 1.045,
-              rotateX: 0,
-              rotateY: 0,
-              rotateZ: 0,
-              filter: 'blur(0px) saturate(1)',
-              boxShadow: '0 34px 78px rgba(5, 77, 40, 0.24)',
-              duration: 0.72,
-              ease: 'power4.out',
-              immediateRender: false,
-            },
-            transitionStart
-          )
-          .to(
-            nextCard,
-            {
-              y: frontY + 2,
-              x: 0,
-              scale: 0.995,
-              rotateX: 1.2,
-              duration: 0.24,
-              ease: 'sine.inOut',
-            },
-            transitionStart + 0.72
-          )
-          .to(
-            nextCard,
-            {
-              y: frontY,
-              scale: 1,
-              rotateX: 0,
-              duration: 0.26,
-              ease: 'sine.out',
-              boxShadow: '0 24px 56px rgba(5, 77, 40, 0.2)',
-            },
-            transitionStart + 0.96
-          );
-      });
-    }, sectionRef);
+          const nextCard = cards[index + 1];
+          const transitionStart = index * phaseDuration + 0.2;
+          timeline
+            .to(
+              card,
+              {
+                y: -250,
+                x: 70,
+                autoAlpha: 0,
+                scale: 0.82,
+                rotateX: -18,
+                rotateY: 20,
+                rotateZ: 6,
+                duration: 0.92,
+                ease: 'power3.in',
+              },
+              transitionStart
+            )
+            .fromTo(
+              nextCard,
+              {
+                y: frontY + 120,
+                x: -52,
+                autoAlpha: 0.38,
+                scale: 0.88,
+                rotateX: 10,
+                rotateY: -16,
+                rotateZ: -2,
+              },
+              {
+                y: frontY - 12,
+                x: 0,
+                autoAlpha: 1,
+                scale: 1.04,
+                rotateX: 0,
+                rotateY: 0,
+                rotateZ: 0,
+                duration: 0.72,
+                ease: 'power4.out',
+                immediateRender: false,
+              },
+              transitionStart
+            )
+            .to(
+              nextCard,
+              {
+                y: frontY + 2,
+                x: 0,
+                scale: 0.995,
+                rotateX: 1,
+                duration: 0.24,
+                ease: 'sine.inOut',
+              },
+              transitionStart + 0.72
+            )
+            .to(
+              nextCard,
+              {
+                y: frontY,
+                scale: 1,
+                rotateX: 0,
+                duration: 0.26,
+                ease: 'sine.out',
+              },
+              transitionStart + 0.96
+            );
+        });
+      }, sectionRef);
 
-    const onResize = () => {
-      ScrollTrigger.refresh();
-    };
-    window.addEventListener('resize', onResize);
+      return () => ctx.revert();
+    });
 
-    return () => {
-      window.removeEventListener('resize', onResize);
-      ctx.revert();
-    };
-  }, [isMobile, locale, dashboardItems]);
+    return () => mm.revert();
+  }, [locale, dashboardItems]);
 
   return (
     <section className="dashboards-block">
@@ -210,14 +187,21 @@ export function DashboardsSection() {
         <motion.h2
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.7, ease: 'easeOut' }}
+          transition={{
+            duration: reduceMotion ? 0.2 : 0.55,
+            ease: reduceMotion ? 'linear' : 'easeOut',
+          }}
         >
           {messages.dashboards.title}
         </motion.h2>
         <motion.p
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.15, ease: 'easeOut' }}
+          transition={{
+            duration: reduceMotion ? 0.2 : 0.45,
+            delay: reduceMotion ? 0 : 0.1,
+            ease: reduceMotion ? 'linear' : 'easeOut',
+          }}
         >
           {messages.dashboards.subtitle}
         </motion.p>
@@ -227,8 +211,8 @@ export function DashboardsSection() {
           className="dashboards-pin-scroll"
           style={{
             position: 'relative',
-            height: dashboardsPinScrollSectionHeight(dashboardItems.length, isMobile),
-            minHeight: isMobile ? 0 : 440,
+            height: DASHBOARDS_PIN_SECTION_HEIGHT_PX,
+            minHeight: 440,
           }}
         >
           <div
@@ -236,7 +220,7 @@ export function DashboardsSection() {
             className="dashboards-pin-wrap"
             style={{
               position: 'relative',
-              height: isMobile ? DASHBOARDS_PIN_SCROLL_HEIGHT_MOBILE_PX : 460,
+              height: 460,
               perspective: 1200,
               overflow: 'visible',
             }}
@@ -249,13 +233,6 @@ export function DashboardsSection() {
                     cardRefs.current[index] = el;
                   }}
                   className="dashboards-item"
-                  style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    transformOrigin: 'center top',
-                  }}
                 >
                   <div className="texts">
                     <b>{item.title}</b>

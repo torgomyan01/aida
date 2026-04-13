@@ -331,6 +331,34 @@ button.green-btn {
   width: 100%;
 }
 
+/* Steps: no pin / no 3D stack on small screens or reduced motion — avoids heavy scroll + blur on phones */
+@media (max-width: 767px), (prefers-reduced-motion: reduce) {
+  .steps-block .steps-pin-container {
+    height: auto !important;
+    min-height: 0 !important;
+  }
+  .steps-block .steps-pin-inner {
+    height: auto !important;
+    perspective: none !important;
+  }
+  .steps-block .steps-pin-container .steps {
+    height: auto;
+    gap: 16px;
+    contain: content;
+  }
+  .steps-block .steps-pin-container .steps .step {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    transform: none !important;
+    opacity: 1 !important;
+    filter: none !important;
+    z-index: auto !important;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.1);
+  }
+}
+
 .industries-block {
   padding: 110px 0 190px;
   background: rgba(22, 51, 0, 0.08);
@@ -663,7 +691,7 @@ button.green-btn {
   }
 }
 .header .menu-wrap .main-menu li {
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 .header .menu-wrap .main-menu li a {
   color: white;
@@ -800,6 +828,10 @@ button.green-btn {
 @media (max-width: 767px) {
   .about-us-block {
     padding: 64px 0;
+  }
+
+  .header .menu-wrap .main-menu li {
+    margin-bottom: 0 !important;
   }
 }
 .about-us-block .info-wrap {
@@ -1284,6 +1316,37 @@ button.green-btn {
 }
 .dashboards-block .dashboards-items .dashboards-item .img img {
   width: 100%;
+}
+
+/* Dashboards: no pin / no 3D stack on small screens or reduced motion */
+@media (max-width: 767px), (prefers-reduced-motion: reduce) {
+  .dashboards-block .dashboards-pin-scroll {
+    height: auto !important;
+    min-height: 0 !important;
+  }
+  .dashboards-block .dashboards-pin-wrap {
+    height: auto !important;
+    perspective: none !important;
+  }
+  .dashboards-block .dashboards-pin-scroll .dashboards-items {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    contain: content;
+  }
+  .dashboards-block .dashboards-pin-scroll .dashboards-items .dashboards-item {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    transform: none !important;
+    opacity: 1 !important;
+    filter: none !important;
+    z-index: auto !important;
+    margin-bottom: 0;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.1);
+  }
 }
 
 .analysis-example-block {
