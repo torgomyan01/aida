@@ -37,7 +37,7 @@ export function DashboardsSection() {
 
     const mm = gsap.matchMedia();
 
-    mm.add('(min-width: 768px) and (prefers-reduced-motion: no-preference)', () => {
+    mm.add('(prefers-reduced-motion: no-preference)', () => {
       const ctx = gsap.context(() => {
         let lastStackIndex = -1;
 
