@@ -73,6 +73,8 @@ function BookDemoModalDialog({
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [sent, setSent] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const reduce = reduceMotion ?? false;
 
@@ -82,6 +84,8 @@ function BookDemoModalDialog({
     setName('');
     setPhone('');
     setEmail('');
+    setSubmitting(false);
+    setSubmitError(null);
   }, [open]);
 
   useEffect(() => {
@@ -107,14 +111,31 @@ function BookDemoModalDialog({
     return () => window.clearTimeout(t);
   }, [open, sent]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim() || !phone.trim() || !email.trim()) return;
+    setSubmitError(null);
+    setSubmitting(true);
     const payload = { name: name.trim(), phone: phone.trim(), email: email.trim() };
-    if (typeof window !== 'undefined') {
-      window.dispatchEvent(new CustomEvent('aida:book-demo', { detail: payload }));
+    try {
+      const res = await fetch('/api/book-demo', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) {
+        setSubmitError(messages.bookDemo.submitError);
+        return;
+      }
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('aida:book-demo', { detail: payload }));
+      }
+      setSent(true);
+    } catch {
+      setSubmitError(messages.bookDemo.submitError);
+    } finally {
+      setSubmitting(false);
     }
-    setSent(true);
   };
 
   const handleBookAnother = () => {
@@ -122,6 +143,7 @@ function BookDemoModalDialog({
     setName('');
     setPhone('');
     setEmail('');
+    setSubmitError(null);
   };
 
   return (
@@ -230,6 +252,12 @@ function BookDemoModalDialog({
                         {messages.bookDemo.title}
                       </motion.h2>
 
+                      {submitError ? (
+                        <p className="book-demo-modal__error" role="alert">
+                          {submitError}
+                        </p>
+                      ) : null}
+
                       <motion.label
                         className="book-demo-modal__field book-demo-modal__field--first"
                         variants={staggerItem(reduce)}
@@ -241,8 +269,12 @@ function BookDemoModalDialog({
                           autoComplete="name"
                           placeholder={messages.bookDemo.namePlaceholder}
                           value={name}
-                          onChange={(e) => setName(e.target.value)}
+                          onChange={(e) => {
+                            setSubmitError(null);
+                            setName(e.target.value);
+                          }}
                           className="book-demo-modal__input"
+                          disabled={submitting}
                         />
                       </motion.label>
 
@@ -254,8 +286,12 @@ function BookDemoModalDialog({
                           autoComplete="tel"
                           placeholder={messages.bookDemo.phonePlaceholder}
                           value={phone}
-                          onChange={(e) => setPhone(e.target.value)}
+                          onChange={(e) => {
+                            setSubmitError(null);
+                            setPhone(e.target.value);
+                          }}
                           className="book-demo-modal__input"
+                          disabled={submitting}
                         />
                       </motion.label>
 
@@ -268,8 +304,12 @@ function BookDemoModalDialog({
                           inputMode="email"
                           placeholder={messages.bookDemo.emailPlaceholder}
                           value={email}
-                          onChange={(e) => setEmail(e.target.value)}
+                          onChange={(e) => {
+                            setSubmitError(null);
+                            setEmail(e.target.value);
+                          }}
                           className="book-demo-modal__input"
+                          disabled={submitting}
                         />
                       </motion.label>
 
@@ -278,8 +318,9 @@ function BookDemoModalDialog({
                           type="submit"
                           className="green-btn book-demo-modal__submit"
                           whileTap={reduce ? undefined : { scale: 0.98 }}
+                          disabled={submitting}
                         >
-                          {messages.bookDemo.submit}
+                          {submitting ? messages.bookDemo.submitSending : messages.bookDemo.submit}
                         </motion.button>
                       </motion.div>
                     </motion.div>

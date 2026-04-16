@@ -2435,6 +2435,14 @@ button.green-btn {
   margin-top: 20px;
 }
 
+.book-demo-modal__error {
+  margin: 12px 0 0;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #b42318;
+  font-family: "Nunito Sans", sans-serif;
+}
+
 @media (max-width: 720px) {
   .book-demo-modal__root {
     align-items: flex-end;

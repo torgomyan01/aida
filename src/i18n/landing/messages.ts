@@ -26,6 +26,8 @@ export type LandingMessages = {
     emailLabel: string;
     emailPlaceholder: string;
     submit: string;
+    submitSending: string;
+    submitError: string;
     closeAria: string;
     successTitle: string;
     successBody: string;
@@ -130,6 +132,8 @@ export const landingMessages: Record<LandingLocale, LandingMessages> = {
       emailLabel: 'Email',
       emailPlaceholder: 'you@company.com',
       submit: 'Send request',
+      submitSending: 'Sending…',
+      submitError: 'Could not send. Please try again in a moment.',
       closeAria: 'Close',
       successTitle: 'Request sent',
       successBody: 'We will contact you shortly.',
@@ -146,12 +150,12 @@ export const landingMessages: Record<LandingLocale, LandingMessages> = {
             'We help banks, telecom and government to improve their service — turn every conversation into success',
         },
         {
-          title: 'Tools to increase AI to upgrade Skills',
+          title: 'AI to upgrade Skills',
           text:
             'Empower your team with hints — help agents navigate complex dialogues with confidence.',
         },
         {
-          title: 'Tools to increase Insights to control Quality',
+          title: 'Insights to control Quality',
           text:
             "Get full visibility into your team's dialogues — make data-driven decisions to train your staff effectively.",
         },
@@ -330,6 +334,8 @@ export const landingMessages: Record<LandingLocale, LandingMessages> = {
       emailLabel: 'Email',
       emailPlaceholder: 'you@company.com',
       submit: 'Отправить заявку',
+      submitSending: 'Отправка…',
+      submitError: 'Не удалось отправить. Попробуйте ещё раз через минуту.',
       closeAria: 'Закрыть',
       successTitle: 'Заявка отправлена',
       successBody: 'Мы свяжемся с вами в ближайшее время.',
@@ -346,14 +352,14 @@ export const landingMessages: Record<LandingLocale, LandingMessages> = {
             'Мы помогаем банкам, телеком-операторам и госорганам улучшать сервис — превращая каждый диалог в успех.',
         },
         {
-          title: 'ИИ для прокачки навыков',
+          title: 'ИИ для развития навыков',
           text:
-            'Дайте команде суфлер: помогайте операторам уверенно вести сложные диалоги с помощью подсказок в реальном времени.',
+            'Усильте команду подсказками — помогайте операторам уверенно справляться со сложными диалогами',
         },
         {
           title: 'Аналитика для контроля качества',
           text:
-            'Получите полную прозрачность звонков: принимайте решения на основе данных для эффективного обучения сотрудников.',
+            'Получите полную прозрачность звонков и диалогов: удобные и понятные дашборды для обучения сотрудников и контроля качества',
         },
       ],
     },
@@ -530,6 +536,8 @@ export const landingMessages: Record<LandingLocale, LandingMessages> = {
       emailLabel: 'Email',
       emailPlaceholder: 'you@company.com',
       submit: 'So‘rov yuborish',
+      submitSending: 'Yuborilmoqda…',
+      submitError: 'Yuborib bo‘lmadi. Bir ozdan keyin qayta urinib ko‘ring.',
       closeAria: 'Yopish',
       successTitle: 'So‘rov yuborildi',
       successBody: 'Tez orada siz bilan bog‘lanamiz.',

@@ -38,6 +38,14 @@ function stepsPinContainerHeightPx() {
 const BANNER_DELAY_MS = 8000;
 const CONTENT_FADE_OFFSET_MS = 500;
 
+function readSwiperSlideIndex(video: HTMLVideoElement): number | null {
+  const slide = video.closest('.swiper-slide');
+  const raw = slide?.getAttribute('data-swiper-slide-index');
+  if (raw == null) return null;
+  const n = parseInt(raw, 10);
+  return Number.isFinite(n) && n >= 0 ? n : null;
+}
+
 function HomeHeroSection() {
   const messages = useLandingMessages();
   const { openBookDemo } = useBookDemoModal();
@@ -56,18 +64,37 @@ function HomeHeroSection() {
   const swiperRef = useRef<SwiperType | null>(null);
   const fadeOutTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const fadeInTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  /** Persist playback so loop duplicates / revisits do not restart from 0 */
+  const heroVideoTimeBySlideRef = useRef<Map<number, number>>(new Map());
 
   const syncHeroVideoPlayback = (swiper: SwiperType) => {
     const videos = swiper.el.querySelectorAll<HTMLVideoElement>('.slide-bg-video');
     const activeSlide = swiper.el.querySelector<HTMLElement>('.swiper-slide-active');
     const activeVideo = activeSlide?.querySelector<HTMLVideoElement>('.slide-bg-video') ?? null;
+    const times = heroVideoTimeBySlideRef.current;
 
     videos.forEach((video) => {
-      if (video === activeVideo) return;
+      const slide = video.closest<HTMLElement>('.swiper-slide');
+      const isActive = Boolean(slide?.classList.contains('swiper-slide-active'));
+      if (isActive) return;
+
+      const idx = readSwiperSlideIndex(video);
+      if (idx != null && video.currentTime > 0.02) {
+        times.set(idx, video.currentTime);
+      }
       video.pause();
     });
 
     if (activeVideo) {
+      const idx = swiper.realIndex;
+      const saved = times.get(idx);
+      if (saved != null && saved > 0.02) {
+        try {
+          activeVideo.currentTime = saved;
+        } catch {
+          /* ignore seek errors before metadata */
+        }
+      }
       const playPromise = activeVideo.play();
       if (playPromise && typeof playPromise.catch === 'function') {
         playPromise.catch(() => {});
