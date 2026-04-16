@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { ProxyAgent, fetch as undiciFetch } from 'undici';
 
 type BookDemoBody = {
   name?: unknown;
@@ -7,6 +8,8 @@ type BookDemoBody = {
 };
 
 const MAX_FIELD = 512;
+/** Outbound request budget; avoids hanging when the host cannot reach Telegram */
+const TELEGRAM_FETCH_MS = 25_000;
 
 function trimField(value: unknown): string {
   if (typeof value !== 'string') return '';
@@ -22,24 +25,59 @@ function parseTelegramChatIds(raw: string | undefined): string[] {
     .filter((s) => /^-?\d+$/.test(s));
 }
 
+function telegramApiOrigin(): string {
+  const raw = process.env.TELEGRAM_API_ORIGIN?.trim() || 'https://api.telegram.org';
+  return raw.replace(/\/$/, '');
+}
+
+type OutboundFetch = (input: string, init?: RequestInit) => Promise<Response>;
+
+/**
+ * When the server cannot open TCP to Telegram (e.g. DC blocked), set TELEGRAM_HTTPS_PROXY to an
+ * HTTP(S) proxy that can reach api.telegram.org — same idea as routing traffic via another host.
+ * RentCar uses plain fetch; blocked hosts need a proxy or alternate API origin.
+ */
+function createOutboundFetch(): OutboundFetch {
+  const proxy =
+    process.env.TELEGRAM_HTTPS_PROXY?.trim() || process.env.TELEGRAM_HTTP_PROXY?.trim();
+  if (!proxy) return (input, init) => fetch(input, init);
+
+  const dispatcher = new ProxyAgent(proxy);
+  return (input, init) =>
+    undiciFetch(input, {
+      method: init?.method,
+      headers: init?.headers,
+      body: init?.body === null ? undefined : init?.body,
+      signal: init?.signal ?? undefined,
+      dispatcher,
+    } as Parameters<typeof undiciFetch>[1]) as unknown as Promise<Response>;
+}
+
 async function sendTelegramMessage(
+  doFetch: OutboundFetch,
   token: string,
   chatId: string,
   text: string
 ): Promise<{ ok: boolean }> {
-  const url = `https://api.telegram.org/bot${token}/sendMessage`;
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      chat_id: chatId,
-      text,
-      disable_web_page_preview: true,
-    }),
-    cache: 'no-store',
-  });
-  const data = (await res.json()) as { ok?: boolean };
-  return { ok: Boolean(data.ok) };
+  const url = `${telegramApiOrigin()}/bot${token}/sendMessage`;
+  try {
+    const res = await doFetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: chatId,
+        text,
+        disable_web_page_preview: true,
+      }),
+      cache: 'no-store',
+      signal: AbortSignal.timeout(TELEGRAM_FETCH_MS),
+    });
+    const data = (await res.json()) as { ok?: boolean };
+    return { ok: Boolean(data.ok) };
+  } catch (err) {
+    console.error('[book-demo] Telegram sendMessage failed:', err);
+    return { ok: false };
+  }
 }
 
 export async function POST(request: Request) {
@@ -72,13 +110,22 @@ export async function POST(request: Request) {
     `Email: ${email}`,
   ].join('\n');
 
-  const results = await Promise.all(
-    chatIds.map((chatId) => sendTelegramMessage(token, chatId, text))
+  const doFetch = createOutboundFetch();
+  const settled = await Promise.allSettled(
+    chatIds.map((chatId) => sendTelegramMessage(doFetch, token, chatId, text))
   );
 
-  if (!results.every((r) => r.ok)) {
-    return NextResponse.json({ error: 'telegram_failed' }, { status: 502 });
+  const successful = settled.filter(
+    (r) => r.status === 'fulfilled' && r.value.ok
+  ).length;
+  const failed = chatIds.length - successful;
+
+  if (successful === 0) {
+    return NextResponse.json(
+      { ok: false, error: 'telegram_failed', successful, failed },
+      { status: 200 }
+    );
   }
 
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({ ok: true, successful, failed });
 }

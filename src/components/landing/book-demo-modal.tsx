@@ -123,7 +123,14 @@ function BookDemoModalDialog({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
-      if (!res.ok) {
+      let data: { ok?: boolean } = {};
+      try {
+        data = (await res.json()) as { ok?: boolean };
+      } catch {
+        setSubmitError(messages.bookDemo.submitError);
+        return;
+      }
+      if (!res.ok || data.ok !== true) {
         setSubmitError(messages.bookDemo.submitError);
         return;
       }
