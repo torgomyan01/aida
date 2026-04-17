@@ -1,7 +1,11 @@
 import { NextResponse } from 'next/server';
-import { ProxyAgent, fetch as undiciFetch } from 'undici';
 
+import {
+  BOOK_DEMO_RELAY_DEFAULT_URL,
+  BOOK_DEMO_RELAY_SECRET as BOOK_DEMO_RELAY_SECRET_FROM_FILE,
+} from '@/config/book-demo-relay';
 import { TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID } from '@/config/book-demo-telegram';
+import { dispatchBookDemoTelegram } from '@/lib/book-demo-telegram-dispatch';
 
 type BookDemoBody = {
   name?: unknown;
@@ -10,76 +14,20 @@ type BookDemoBody = {
 };
 
 const MAX_FIELD = 512;
-/** Outbound request budget; avoids hanging when the host cannot reach Telegram */
-const TELEGRAM_FETCH_MS = 25_000;
+const RELAY_FETCH_MS = 25_000;
 
 function trimField(value: unknown): string {
   if (typeof value !== 'string') return '';
   return value.trim().slice(0, MAX_FIELD);
 }
 
-/** Comma-separated chat ids, e.g. `123,456,-100123` */
+/** Comma-separated chat ids — used only when not using relay */
 function parseTelegramChatIds(raw: string | undefined): string[] {
   if (!raw?.trim()) return [];
   return raw
     .split(',')
     .map((s) => s.trim())
     .filter((s) => /^-?\d+$/.test(s));
-}
-
-function telegramApiOrigin(): string {
-  const raw = process.env.TELEGRAM_API_ORIGIN?.trim() || 'https://api.telegram.org';
-  return raw.replace(/\/$/, '');
-}
-
-type OutboundFetch = (input: string, init?: RequestInit) => Promise<Response>;
-
-/**
- * When the server cannot open TCP to Telegram (e.g. DC blocked), set TELEGRAM_HTTPS_PROXY to an
- * HTTP(S) proxy that can reach api.telegram.org — same idea as routing traffic via another host.
- * RentCar uses plain fetch; blocked hosts need a proxy or alternate API origin.
- */
-function createOutboundFetch(): OutboundFetch {
-  const proxy =
-    process.env.TELEGRAM_HTTPS_PROXY?.trim() || process.env.TELEGRAM_HTTP_PROXY?.trim();
-  if (!proxy) return (input, init) => fetch(input, init);
-
-  const dispatcher = new ProxyAgent(proxy);
-  return (input, init) =>
-    undiciFetch(input, {
-      method: init?.method,
-      headers: init?.headers,
-      body: init?.body === null ? undefined : init?.body,
-      signal: init?.signal ?? undefined,
-      dispatcher,
-    } as Parameters<typeof undiciFetch>[1]) as unknown as Promise<Response>;
-}
-
-async function sendTelegramMessage(
-  doFetch: OutboundFetch,
-  token: string,
-  chatId: string,
-  text: string
-): Promise<{ ok: boolean }> {
-  const url = `${telegramApiOrigin()}/bot${token}/sendMessage`;
-  try {
-    const res = await doFetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        chat_id: chatId,
-        text,
-        disable_web_page_preview: true,
-      }),
-      cache: 'no-store',
-      signal: AbortSignal.timeout(TELEGRAM_FETCH_MS),
-    });
-    const data = (await res.json()) as { ok?: boolean };
-    return { ok: Boolean(data.ok) };
-  } catch (err) {
-    console.error('[book-demo] Telegram sendMessage failed:', err);
-    return { ok: false };
-  }
 }
 
 export async function POST(request: Request) {
@@ -98,6 +46,35 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'validation' }, { status: 400 });
   }
 
+  const relayUrl =
+    process.env.BOOK_DEMO_RELAY_URL?.trim() || BOOK_DEMO_RELAY_DEFAULT_URL;
+  const relaySecret =
+    process.env.BOOK_DEMO_RELAY_SECRET?.trim() ||
+    BOOK_DEMO_RELAY_SECRET_FROM_FILE.trim();
+
+  if (relaySecret) {
+    try {
+      const r = await fetch(relayUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${relaySecret}`,
+        },
+        body: JSON.stringify({ name, phone, email }),
+        cache: 'no-store',
+        signal: AbortSignal.timeout(RELAY_FETCH_MS),
+      });
+      const data = (await r.json().catch(() => ({}))) as Record<string, unknown>;
+      return NextResponse.json(data, { status: r.status });
+    } catch (err) {
+      console.error('[book-demo] relay fetch failed:', err);
+      return NextResponse.json(
+        { ok: false, error: 'relay_failed', successful: 0, failed: 0 },
+        { status: 200 }
+      );
+    }
+  }
+
   const token = TELEGRAM_BOT_TOKEN.trim();
   const chatIds = parseTelegramChatIds(TELEGRAM_CHAT_ID);
 
@@ -105,24 +82,9 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'not_configured' }, { status: 503 });
   }
 
-  const text = [
-    'Новая заявка на демо',
-    `Имя: ${name}`,
-    `Телефон: ${phone}`,
-    `Email: ${email}`,
-  ].join('\n');
+  const { ok, successful, failed } = await dispatchBookDemoTelegram(name, phone, email);
 
-  const doFetch = createOutboundFetch();
-  const settled = await Promise.allSettled(
-    chatIds.map((chatId) => sendTelegramMessage(doFetch, token, chatId, text))
-  );
-
-  const successful = settled.filter(
-    (r) => r.status === 'fulfilled' && r.value.ok
-  ).length;
-  const failed = chatIds.length - successful;
-
-  if (successful === 0) {
+  if (!ok) {
     return NextResponse.json(
       { ok: false, error: 'telegram_failed', successful, failed },
       { status: 200 }
