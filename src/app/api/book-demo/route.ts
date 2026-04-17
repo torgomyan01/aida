@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { ProxyAgent, fetch as undiciFetch } from 'undici';
 
+import { TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID } from '@/config/book-demo-telegram';
+
 type BookDemoBody = {
   name?: unknown;
   phone?: unknown;
@@ -96,8 +98,8 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'validation' }, { status: 400 });
   }
 
-  const token = process.env.TELEGRAM_BOT_TOKEN?.trim();
-  const chatIds = parseTelegramChatIds(process.env.TELEGRAM_CHAT_ID);
+  const token = TELEGRAM_BOT_TOKEN.trim();
+  const chatIds = parseTelegramChatIds(TELEGRAM_CHAT_ID);
 
   if (!token || chatIds.length === 0) {
     return NextResponse.json({ error: 'not_configured' }, { status: 503 });
