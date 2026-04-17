@@ -5,6 +5,7 @@ import {
   BOOK_DEMO_RELAY_SECRET as BOOK_DEMO_RELAY_SECRET_FROM_FILE,
 } from '@/config/book-demo-relay';
 import { TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID } from '@/config/book-demo-telegram';
+import { bookDemoCorsHeaders, jsonWithCors } from '@/lib/book-demo-cors';
 import { dispatchBookDemoTelegram } from '@/lib/book-demo-telegram-dispatch';
 
 type BookDemoBody = {
@@ -30,12 +31,19 @@ function parseTelegramChatIds(raw: string | undefined): string[] {
     .filter((s) => /^-?\d+$/.test(s));
 }
 
+export async function OPTIONS(request: Request) {
+  return new NextResponse(null, {
+    status: 204,
+    headers: bookDemoCorsHeaders(request),
+  });
+}
+
 export async function POST(request: Request) {
   let body: BookDemoBody;
   try {
     body = (await request.json()) as BookDemoBody;
   } catch {
-    return NextResponse.json({ error: 'invalid_json' }, { status: 400 });
+    return jsonWithCors(request, { error: 'invalid_json' }, { status: 400 });
   }
 
   const name = trimField(body.name);
@@ -43,7 +51,7 @@ export async function POST(request: Request) {
   const email = trimField(body.email);
 
   if (!name || !phone || !email) {
-    return NextResponse.json({ error: 'validation' }, { status: 400 });
+    return jsonWithCors(request, { error: 'validation' }, { status: 400 });
   }
 
   const relayUrl =
@@ -65,10 +73,14 @@ export async function POST(request: Request) {
         signal: AbortSignal.timeout(RELAY_FETCH_MS),
       });
       const data = (await r.json().catch(() => ({}))) as Record<string, unknown>;
-      return NextResponse.json(data, { status: r.status });
+      return NextResponse.json(data, {
+        status: r.status,
+        headers: bookDemoCorsHeaders(request),
+      });
     } catch (err) {
       console.error('[book-demo] relay fetch failed:', err);
-      return NextResponse.json(
+      return jsonWithCors(
+        request,
         { ok: false, error: 'relay_failed', successful: 0, failed: 0 },
         { status: 200 }
       );
@@ -79,17 +91,18 @@ export async function POST(request: Request) {
   const chatIds = parseTelegramChatIds(TELEGRAM_CHAT_ID);
 
   if (!token || chatIds.length === 0) {
-    return NextResponse.json({ error: 'not_configured' }, { status: 503 });
+    return jsonWithCors(request, { error: 'not_configured' }, { status: 503 });
   }
 
   const { ok, successful, failed } = await dispatchBookDemoTelegram(name, phone, email);
 
   if (!ok) {
-    return NextResponse.json(
+    return jsonWithCors(
+      request,
       { ok: false, error: 'telegram_failed', successful, failed },
       { status: 200 }
     );
   }
 
-  return NextResponse.json({ ok: true, successful, failed });
+  return jsonWithCors(request, { ok: true, successful, failed });
 }

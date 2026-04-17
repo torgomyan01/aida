@@ -46,6 +46,21 @@ const staggerContainer = (reduce: boolean) => ({
   },
 });
 
+/** Production: form posts to Vercel API (CORS). Else same-origin /api/book-demo. */
+function bookDemoSubmitUrl(): string {
+  const fromEnv = process.env.NEXT_PUBLIC_BOOK_DEMO_API_BASE?.trim().replace(/\/$/, '');
+  if (fromEnv) return `${fromEnv}/api/book-demo`;
+
+  if (typeof window !== 'undefined') {
+    const h = window.location.hostname;
+    if (h === 'aida.sale' || h === 'www.aida.sale') {
+      return 'https://aida-woad.vercel.app/api/book-demo';
+    }
+  }
+
+  return '/api/book-demo';
+}
+
 const staggerItem = (reduce: boolean) => ({
   hidden: { opacity: 0, y: reduce ? 0 : 12 },
   show: {
@@ -118,7 +133,7 @@ function BookDemoModalDialog({
     setSubmitting(true);
     const payload = { name: name.trim(), phone: phone.trim(), email: email.trim() };
     try {
-      const res = await fetch('https://aida-woad.vercel.app/api/book-demo', {
+      const res = await fetch(bookDemoSubmitUrl(), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
