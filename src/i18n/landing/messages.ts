@@ -300,13 +300,13 @@ export const landingMessages: Record<LandingLocale, LandingMessages> = {
         {
           name: 'Gleb Lyubimov, CCO',
           bio: 'Product manager with 10 years in IT. Strong at processes and growing technology products.',
-          image: '/landing/img/about-us-img2.jpg',
+          image: '/landing/img/about-us-img1.jpg',
           top: true,
         },
         {
           name: 'Sardor, CTO',
           bio: 'Deep tech engineer with 15 years of experience. Author of unique AI solutions and local LLMs.',
-          image: '/landing/img/about-us-img1.jpg',
+          image: '/landing/img/about-us-img2.jpg',
           top: false,
         },
       ],

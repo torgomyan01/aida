@@ -118,7 +118,7 @@ function BookDemoModalDialog({
     setSubmitting(true);
     const payload = { name: name.trim(), phone: phone.trim(), email: email.trim() };
     try {
-      const res = await fetch('/api/book-demo', {
+      const res = await fetch('https://aida-woad.vercel.app/api/book-demo', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
